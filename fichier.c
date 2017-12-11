@@ -5,10 +5,10 @@
 static FILE * entree = NULL;
 static FILE * sortie = NULL;
 
-void ouvrir_fichier(char* nom_entree, char* nom_sortie){
+/*void ouvrir_fichier(char* nom_entree, char* nom_sortie){
   entree = fopen(nom_entree, "r");
   sortie = fopen(nom_sortie, "w");
-}
+}*/
 
 void fermer_fichier(){
   fclose(entree);
