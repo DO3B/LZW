@@ -2,12 +2,18 @@
 #include "fichier.h"
 
 int main(int argc, char const *argv[]) {
+  int choix = 0;
 
-  char* test = concatene('./',argv[0]);
-  char* test1 = concatene('./',argv[1]);
-  FILE* entree = fopen(test,"rw");
-  FILE* sortie = fopen(test1,"rw");
-  compression(entree,sortie);
-  //decompression(sortie,entree);
+  FILE* entree = fopen(argv[0],"rw");
+  FILE* sortie = fopen(argv[1],"rw");
+
+  printf("(1) pour Compression - (2) pour Décompression : \n");
+  scanf("%d", &choix);
+
+  if (choix)
+    compression(entree,sortie);
+  else
+    decompression(sortie,entree);
+
   return 0;
 }

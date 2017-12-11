@@ -11,4 +11,4 @@ fichier.o: fichier.c fichier.h
 	gcc -g -c -Wall fichier.c
 
 clean:
-	rm lzw *.o
+	rm lzw *.o *.txt
