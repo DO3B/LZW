@@ -34,10 +34,10 @@ void modifier_lettre(t_ptr_noeud noeud, char lettre){
 t_ptr_noeud cree_noeud(int code,char lettre, t_ptr_noeud frere, t_ptr_noeud fils){
   t_ptr_noeud nouveau;
   nouveau=(t_ptr_noeud)malloc(sizeof(t_noeud));
-  nouveau->code=code;
-  nouveau->lettre=lettre;
-  nouveau->frere=frere;
-  nouveau->fils=fils;
+  modifier_code(nouveau, code);
+  modifier_lettre(nouveau, code);
+  ajouter_fils(nouveau, fils);
+  ajouter_frere(nouveau, frere);
   return nouveau;
 }
 
@@ -51,7 +51,10 @@ void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere){
   return;
 }
 
-/*t_ptr_noeud initialiser_dictionnaire(){
+t_ptr_noeud initialiser_dictionnaire(){
+  int i;
+  for(i=0;i<255;i++){
 
+  }
   return dictionnaire;
-}*/
+}
