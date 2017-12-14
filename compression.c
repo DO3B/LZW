@@ -6,13 +6,13 @@
 
 void compression(FILE* entree, FILE* sortie){
   unsigned char * tampon = NULL;
-  int c;
+  int code;
 
   do {
-    c = fgetc(entree);
-    printf("%d ", c);
-    fprintf(sortie, "%d ", c);
-  } while(c != EOF);
+    code = fgetc(entree);
+    fprintf(sortie, "%d ", code);
+  } while(code != EOF);
+  fermer_fichier();
 }
 
 int lire_code (FILE* arg) {
@@ -25,8 +25,11 @@ int lire_code (FILE* arg) {
 
 void decompression(FILE* sortie, FILE* entree){
   unsigned char * tampon = NULL;
+  FILE* sortie2 = fopen("sortie2","rw+");
   int code;
   while ((code = lire_code(sortie)) != 0){
-    printf("%d",code);
+    fputc(code, sortie2);
   }
+  fermer_fichier();
+  fclose(sortie2);
 }
