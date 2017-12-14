@@ -7,7 +7,7 @@ static FILE * sortie = NULL;
 
 /*void ouvrir_fichier(char* nom_entree, char* nom_sortie){
   entree = fopen(nom_entree, "r");
-  sortie = fopen(nom_sortie, "w");
+  sortie = fopen(nom_sortie, "rw");
 }*/
 
 void fermer_fichier(){

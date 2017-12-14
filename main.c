@@ -10,7 +10,7 @@ int main(int argc, char const *argv[]) {
   printf("(1) pour Compression - (2) pour Décompression : \n");
   scanf("%d", &choix);
 
-  if (choix)
+  if (choix == 1)
     compression(entree,sortie);
   else
     decompression(sortie,entree);

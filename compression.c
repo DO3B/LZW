@@ -10,26 +10,23 @@ void compression(FILE* entree, FILE* sortie){
 
   do {
     code = fgetc(entree);
+    printf("%d ", code);
     fprintf(sortie, "%d ", code);
   } while(code != EOF);
-  fermer_fichier();
 }
 
-int lire_code (FILE* arg) {
-    int code = 0;
-    assert (arg != NULL);
-
-    fscanf (arg, "%d", &code);
+int lire_code (FILE* fichier) {
+    int code;
+    fscanf (fichier, "%d", &code);
     return code;
 }
 
 void decompression(FILE* sortie, FILE* entree){
-  unsigned char * tampon = NULL;
-  FILE* sortie2 = fopen("sortie2","rw+");
-  int code;
-  while ((code = lire_code(sortie)) != 0){
-    fputc(code, sortie2);
+  unsigned char * previous = NULL;
+  int code = lire_code(sortie);
+  while (code != EOF){
+    printf("essai");
+    fputc(code, entree);
+    code = lire_code(sortie);
   }
-  fermer_fichier();
-  fclose(sortie2);
 }
