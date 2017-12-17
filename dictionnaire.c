@@ -58,3 +58,12 @@ t_ptr_noeud initialiser_dictionnaire(){
   }
   return dictionnaire;
 }
+
+//tableau qui pointe sur les noeuds du dictionnaire
+// n est le nombre d'éléments du dictionnaire
+
+t_ptr_noeud creertab(int n){
+  return t_ptr_noeud tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
+}
+
+//penser au free(tabnoeud)
