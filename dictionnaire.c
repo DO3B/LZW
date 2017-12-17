@@ -51,19 +51,23 @@ void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere){
   return;
 }
 
+
 t_ptr_noeud initialiser_dictionnaire(){
   int i;
+  char lettre;
+  t_ptr_noeud dico =NULL;
   for(i=0;i<255;i++){
-
+    dico = cree_noeud(i,lettre,dico,NULL);
   }
-  return dictionnaire;
+  return dico;
 }
 
 //tableau qui pointe sur les noeuds du dictionnaire
 // n est le nombre d'éléments du dictionnaire
 
 t_ptr_noeud creertab(int n){
-  return t_ptr_noeud tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
+  t_ptr_noeud tabnoeud;
+  return tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
 }
 
 //penser au free(tabnoeud)

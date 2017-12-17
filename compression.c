@@ -7,9 +7,12 @@
 void compression(FILE* entree, FILE* sortie){
   unsigned char * tampon = NULL;
   int code;
+//  unsigned char * res;
 
   do {
     code = fgetc(entree);
+    //res=concatene(tampon , lettre)
+
     printf("%d ", code);
     fprintf(sortie, "%d ", code);
   } while(code != EOF);
