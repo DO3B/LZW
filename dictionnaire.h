@@ -22,5 +22,5 @@ void ajouter_fils(t_ptr_noeud pere, t_ptr_noeud fils);
 void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere);
 t_ptr_noeud initialiser_dictionnaire();
 t_ptr_noeud table[MAX];
-
+t_ptr_noeud creertab(int n);
 #endif
