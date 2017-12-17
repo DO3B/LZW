@@ -69,5 +69,6 @@ t_ptr_noeud creertab(int n){
   t_ptr_noeud tabnoeud;
   return tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
 }
+//a
 
 //penser au free(tabnoeud)
