@@ -69,16 +69,5 @@ t_ptr_noeud creertab(int n){
   t_ptr_noeud tabnoeud;
   return tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
 }
-<<<<<<< HEAD
-//a
-=======
-
-//tableau qui pointe sur les noeuds du dictionnaire
-// n est le nombre d'éléments du dictionnaire
-
-t_ptr_noeud creertab(int n){
-  return t_ptr_noeud tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
-}
->>>>>>> b66a7dc902cbe15660037f3e6be5483f24101637
 
 //penser au free(tabnoeud)
