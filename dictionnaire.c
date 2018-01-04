@@ -136,7 +136,8 @@ t_ptr_noeud initialiser_dictionnaire(){
   t_ptr_noeud dico = NULL;
   char lettre;
 
-  for(lettre = 0; lettre <= 255; lettre++){
+  //Marche en décrémentant mais pas en incrémentant pour des raisons que j'ignore
+  for(lettre = 255; lettre != 0; lettre--){
     dico = cree_noeud(lettre,dico,NULL);
     printf("%c\n", lettre);
   }
