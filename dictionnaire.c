@@ -137,10 +137,9 @@ t_ptr_noeud initialiser_dictionnaire(){
   char lettre;
 
   //Marche en décrémentant mais pas en incrémentant pour des raisons que j'ignore
-  for(lettre = 255; lettre != 0; lettre--){
+  for(lettre = 255; lettre != 0; lettre--)
     dico = cree_noeud(lettre,dico,NULL);
-    printf("%c\n", lettre);
-  }
+
   return dico;
 }
 
@@ -190,7 +189,7 @@ int rechercher_dictionnaire(t_ptr_noeud dico, char* chaine){
 }
 
 void afficher_dictionnaire(t_ptr_noeud dico){
-  //printf("%d %c\n", code_noeud(dico), lettre_noeud(dico));
+  printf("%d %c\n", code_noeud(dico), lettre_noeud(dico));
 
   if(fils_noeud(dico) != NULL)
     afficher_dictionnaire(fils_noeud(dico));

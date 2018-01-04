@@ -18,4 +18,5 @@ int main(int argc, char const *argv[]) {
 
   return 0;*/
   t_ptr_noeud dico = initialiser_dictionnaire();
+  afficher_dictionnaire(dico);
 }
