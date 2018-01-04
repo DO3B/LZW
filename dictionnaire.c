@@ -81,7 +81,6 @@ void modifier_code(t_ptr_noeud noeud, int code){
 */
 void modifier_lettre(t_ptr_noeud noeud, char lettre){
   noeud->lettre = lettre;
-}
 
 /** @brief Modifie la lettre du noeud ou l'ajoute
 * @param noeud -> noeud que l'on souhaite modifier
@@ -101,6 +100,25 @@ void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere){
   pere->frere=frere;
 }
 
+t_ptr_noeud initialiser_dictionnaire(){
+  int i;
+  char lettre;
+  t_ptr_noeud dico =NULL;
+  for(i=0;i<255;i++){
+    dico = cree_noeud(i,lettre,dico,NULL);
+  }
+  return dico;
+}
+
+//tableau qui pointe sur les noeuds du dictionnaire
+// n est le nombre d'éléments du dictionnaire
+t_ptr_noeud creertab(int n){
+  t_ptr_noeud tabnoeud;
+  return tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
+}
+
+//penser au free(tabnoeud)
+=======
 /** @brief Créer un noeud
 * @param code -> entier contenant le code
 * @param lettre -> lettre associée au noeud

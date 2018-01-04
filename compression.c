@@ -29,11 +29,16 @@
 void compression(FILE* entree, FILE* sortie){
   unsigned char * tampon = NULL;
   int code;
+  unsigned char * res;
 
   do {
     code = fgetc(entree);
-    printf("%d ", code);
-    fprintf(sortie, "%d ", code);
+    res=concatene(tampon,lettre);
+    if(existedico(res)) tampon=res;
+    else{
+      ajout_dico(res);
+      tampon=lettre;
+    }
   } while(code != EOF);
 }
 
