@@ -132,6 +132,9 @@ t_ptr_noeud cree_noeud(char lettre, t_ptr_noeud frere, t_ptr_noeud fils){
   return nouveau;
 }
 
+/** @brief Initialise un dictionnaire
+* @return Un arbre contenant les 255 caractères ASCII
+*/
 t_ptr_noeud initialiser_dictionnaire(){
   t_ptr_noeud dico = NULL;
   char lettre;
@@ -143,15 +146,10 @@ t_ptr_noeud initialiser_dictionnaire(){
   return dico;
 }
 
-//tableau qui pointe sur les noeuds du dictionnaire
-// n est le nombre d'éléments du dictionnaire
-t_ptr_noeud creertab(int n){
-  t_ptr_noeud tabnoeud;
-  return tabnoeud =(t_ptr_noeud)malloc( n * sizeof(t_noeud));
-}
-
-//penser au free(tabnoeud)
-
+/** @brief Supprime un dictionnaire
+* @param Dictionnaire que l'on souhaite supprimer
+* @return Rien
+*/
 void supprimer_dictionnaire(t_ptr_noeud dico){
   t_ptr_noeud noeud = dico;
 
@@ -167,6 +165,11 @@ void supprimer_dictionnaire(t_ptr_noeud dico){
   free(noeud);
 }
 
+/** @brief Recherche un caractère dans le dictionnaire
+* @param Dictionnaire que l'on souhaite parcourir
+* @param Chaîne de caractère
+* @return Le code de la chaîne
+*/
 int rechercher_dictionnaire(t_ptr_noeud dico, char* chaine){
   t_ptr_noeud noeud = dico;
 
@@ -188,6 +191,10 @@ int rechercher_dictionnaire(t_ptr_noeud dico, char* chaine){
   }
 }
 
+/** @brief Affiche le dictionnaire
+* @param Dictionnaire que l'on souhaite afficher
+* @return Rien
+*/
 void afficher_dictionnaire(t_ptr_noeud dico){
   printf("%d %c\n", code_noeud(dico), lettre_noeud(dico));
 
