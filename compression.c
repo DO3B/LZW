@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-void compression(FILE* entree, FILE* sortie){
+/*void compression(FILE* entree, FILE* sortie){
   unsigned char * tampon = NULL;
   int code;
   unsigned char * res;
@@ -56,4 +56,4 @@ void decompression(FILE* sortie, FILE* entree){
     fputc(code, entree);
     code = lire_code(sortie);
   }
-}
+}*/

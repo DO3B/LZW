@@ -24,6 +24,7 @@
 
 #include "dictionnaire.h"
 #include <stdlib.h>
+#include <string.h>
 
 /** @brief Renvoie le code du noeud
 * @param noeud -> noeud dont on souhaite connaître le code
@@ -67,11 +68,21 @@ t_ptr_noeud pere_noeud(t_ptr_noeud noeud){
 
 /** @brief Modifie le code du noeud ou l'ajoute
 * @param noeud -> noeud que l'on souhaite modifier
-* @param code -> nouveau code
 * @return rien
 */
-void modifier_code(t_ptr_noeud noeud, int code){
+void assigner_code(t_ptr_noeud noeud){
+  static int code = 255;
   noeud->code = code;
+
+  //On initiliase le dico
+  if(code <= 255)
+    code--;
+  //Le dico a fini d'être initialisé, donc code = 260
+  else if(code == 1)
+    code = 260;
+  //On ajoute juste un nouveau mot
+  else
+    code++;
 }
 
 /** @brief Modifie la lettre du noeud ou l'ajoute
@@ -81,6 +92,7 @@ void modifier_code(t_ptr_noeud noeud, int code){
 */
 void modifier_lettre(t_ptr_noeud noeud, char lettre){
   noeud->lettre = lettre;
+}
 
 /** @brief Modifie la lettre du noeud ou l'ajoute
 * @param noeud -> noeud que l'on souhaite modifier
@@ -100,12 +112,33 @@ void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere){
   pere->frere=frere;
 }
 
+/** @brief Créé un noeud
+* @param code -> entier contenant le code
+* @param lettre -> lettre associée au noeud
+* @param frere -> pointeur vers le frère
+* @param fils -> pointeur vers le fils
+* @return Un nouveau noeud avec les paramètres ci-dessus
+*/
+t_ptr_noeud cree_noeud(char lettre, t_ptr_noeud frere, t_ptr_noeud fils){
+  t_ptr_noeud nouveau;
+  nouveau = (t_ptr_noeud) malloc(sizeof(t_noeud));
+
+  modifier_lettre(nouveau, lettre);
+  ajouter_fils(nouveau, fils);
+  ajouter_frere(nouveau, frere);
+  assigner_code(nouveau);
+  table[code_noeud(nouveau)] = nouveau;
+
+  return nouveau;
+}
+
 t_ptr_noeud initialiser_dictionnaire(){
-  int i;
+  t_ptr_noeud dico = NULL;
   char lettre;
-  t_ptr_noeud dico =NULL;
-  for(i=0;i<255;i++){
-    dico = cree_noeud(i,lettre,dico,NULL);
+
+  for(lettre = 0; lettre <= 255; lettre++){
+    dico = cree_noeud(lettre,dico,NULL);
+    printf("%c\n", lettre);
   }
   return dico;
 }
@@ -118,30 +151,49 @@ t_ptr_noeud creertab(int n){
 }
 
 //penser au free(tabnoeud)
-=======
-/** @brief Créer un noeud
-* @param code -> entier contenant le code
-* @param lettre -> lettre associée au noeud
-* @param frere -> pointeur vers le frère
-* @param fils -> pointeur vers le fils
-* @return Un nouveau noeud avec les paramètres ci-dessus
-*/
-t_ptr_noeud cree_noeud(int code,char lettre, t_ptr_noeud frere, t_ptr_noeud fils){
-  t_ptr_noeud nouveau;
-  nouveau = (t_ptr_noeud) malloc(sizeof(t_noeud));
 
-  modifier_code(nouveau, code);
-  modifier_lettre(nouveau, code);
-  ajouter_fils(nouveau, fils);
-  ajouter_frere(nouveau, frere);
+void supprimer_dictionnaire(t_ptr_noeud dico){
+  t_ptr_noeud noeud = dico;
 
-  return nouveau;
+  if(fils_noeud(noeud) != NULL)
+    supprimer_dictionnaire(fils_noeud(noeud));
+
+  if(frere_noeud(noeud) != NULL)
+    supprimer_dictionnaire(frere_noeud(noeud));
+
+  if(pere_noeud(noeud) != NULL)
+    supprimer_dictionnaire(pere_noeud(noeud));
+
+  free(noeud);
 }
 
-t_ptr_noeud initialiser_dictionnaire(){
-  int i;
-  for(i=0;i<255;i++){
+int rechercher_dictionnaire(t_ptr_noeud dico, char* chaine){
+  t_ptr_noeud noeud = dico;
 
+  if(dico == NULL){
+    return 0;
   }
-  return dictionnaire;
+
+  if(lettre_noeud(noeud) == chaine[0]){
+  //si chaine a une seule lettre, retourne le code
+    if(strlen(chaine) == 1)
+      return code_noeud(noeud);
+    else
+      return rechercher_dictionnaire(fils_noeud(noeud), &chaine[1]);
+  } else {
+    if(lettre_noeud(noeud) > chaine[0])
+      return 0;
+    else
+      return rechercher_dictionnaire(frere_noeud(noeud), chaine);
+  }
+}
+
+void afficher_dictionnaire(t_ptr_noeud dico){
+  //printf("%d %c\n", code_noeud(dico), lettre_noeud(dico));
+
+  if(fils_noeud(dico) != NULL)
+    afficher_dictionnaire(fils_noeud(dico));
+
+  if(frere_noeud(dico) != NULL)
+    afficher_dictionnaire(frere_noeud(dico));
 }
