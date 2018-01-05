@@ -21,7 +21,7 @@
  */
 
 #include "compression.h"
-#include "fichier.h"
+
 #include "dictionnaire.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +40,7 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
     res = concatene(res, lettre);
 
     printf("%s\n", res);
-    
+
     if(rechercher_dictionnaire(dico,res))
       tampon=res;
     else{
