@@ -22,26 +22,30 @@
 
 #include "compression.h"
 #include "fichier.h"
+#include "dictionnaire.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
 
-void compression(FILE* entree, FILE* sortie){
-  unsigned char * tampon = NULL;
+void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
+  char * tampon = NULL,
+       * lettre = NULL,
+       * res;
   int code;
-  unsigned char * res;
 
   do {
     code = fgetc(entree);
-
-    strcat(res,code);
+    printf("%d", code);
+    res = concatene(res, lettre);
 
     printf("%s\n", res);
-    if(rechercher_dictionnaire(res)) tampon=res;
+    
+    if(rechercher_dictionnaire(dico,res))
+      tampon=res;
     else{
-      ajout_dico(res);
-      tampon=(unsigned char*)code;
+      ajout_dico(dico,res);
+      tampon=lettre;
     }
   } while(code != EOF);
 }
