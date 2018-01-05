@@ -25,19 +25,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
-/*void compression(FILE* entree, FILE* sortie){
+void compression(FILE* entree, FILE* sortie){
   unsigned char * tampon = NULL;
   int code;
   unsigned char * res;
 
   do {
     code = fgetc(entree);
-    res=concatene(tampon,lettre);
+
+    strcat(res,code);
+
+    printf("%s\n", res);
     if(rechercher_dictionnaire(res)) tampon=res;
     else{
       ajout_dico(res);
-      tampon=lettre;
+      tampon=(unsigned char*)code;
     }
   } while(code != EOF);
 }
@@ -56,4 +60,4 @@ void decompression(FILE* sortie, FILE* entree){
     fputc(code, entree);
     code = lire_code(sortie);
   }
-}*/
+}
