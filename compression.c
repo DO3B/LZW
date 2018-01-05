@@ -26,29 +26,29 @@
 #include <assert.h>
 #include <string.h>
 
-char* lire_lettre(FILE* entree){
-  char* lettre = NULL;
+unsigned char* lire_lettre(FILE* entree){
+  unsigned char* lettre = NULL;
   int code;
 
   code = fgetc(entree);
 
   if(code != EOF){
-    lettre = malloc(sizeof(char)*2);
-    sprintf(lettre, "%c", code);
+    lettre = malloc(sizeof(unsigned char)*2);
+    sprintf((char*)lettre, "%s", (unsigned char*)code);
   }
 
+  printf("Ok!");
   return lettre;
 }
 
 
 void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
-  char * tampon = NULL,
-       * lettre = NULL,
-       * res;
+  unsigned char * tampon = NULL,
+                * lettre = NULL,
+                * res;
   do {
     lettre = lire_lettre(entree);
-    res = strcat(res, lettre);
-    printf("%s\n", res);
+    res = strcpy(res, lettre);
 
     if(rechercher_dictionnaire(dico,res)){
       free(tampon);
@@ -65,10 +65,12 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
 
       tampon = lettre;
     }
-    
+
     fprintf(sortie, "%c", rechercher_dictionnaire(dico, tampon));
     free(tampon);
+
   } while((lettre = lire_lettre(entree)) != NULL);
+
 }
 
 int lire_code (FILE* fichier) {

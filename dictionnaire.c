@@ -39,7 +39,7 @@ int code_noeud(t_ptr_noeud noeud){
 * @param noeud -> noeud dont on souhaite connaître la lettre
 * @return La lettre du noeud en paramètre
 */
-char lettre_noeud(t_ptr_noeud noeud){
+unsigned char lettre_noeud(t_ptr_noeud noeud){
   return noeud->lettre;
 }
 
@@ -91,7 +91,7 @@ void assigner_code(t_ptr_noeud noeud){
 * @param code -> nouvelle lettre
 * @return rien
 */
-void modifier_lettre(t_ptr_noeud noeud, char lettre){
+void modifier_lettre(t_ptr_noeud noeud, unsigned char lettre){
   noeud->lettre = lettre;
 }
 
@@ -120,7 +120,7 @@ void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere){
 * @param fils -> pointeur vers le fils
 * @return Un nouveau noeud avec les paramètres ci-dessus
 */
-t_ptr_noeud cree_noeud(char lettre, t_ptr_noeud frere, t_ptr_noeud fils){
+t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils){
   t_ptr_noeud nouveau;
   nouveau = (t_ptr_noeud) malloc(sizeof(t_noeud));
 
@@ -138,7 +138,7 @@ t_ptr_noeud cree_noeud(char lettre, t_ptr_noeud frere, t_ptr_noeud fils){
 */
 t_ptr_noeud initialiser_dictionnaire(){
   t_ptr_noeud dico = NULL;
-  char lettre;
+  unsigned char lettre;
 
   //Marche en décrémentant mais pas en incrémentant pour des raisons que j'ignore
   for(lettre = 255; lettre != 0; lettre--)
@@ -171,7 +171,7 @@ void supprimer_dictionnaire(t_ptr_noeud dico){
 * @param Chaîne de caractère
 * @return Le code de la chaîne
 */
-int rechercher_dictionnaire(t_ptr_noeud dico, char* chaine){
+int rechercher_dictionnaire(t_ptr_noeud dico, unsigned char* chaine){
   t_ptr_noeud noeud = dico;
 
   if(dico == NULL){
@@ -180,7 +180,7 @@ int rechercher_dictionnaire(t_ptr_noeud dico, char* chaine){
 
   if(lettre_noeud(noeud) == chaine[0]){
   //si chaine a une seule lettre, retourne le code
-    if(strlen(chaine) == 1)
+    if(strlen((unsigned char*)chaine) == 1)
       return code_noeud(noeud);
     else
       return rechercher_dictionnaire(fils_noeud(noeud), &chaine[1]);
@@ -206,7 +206,7 @@ void afficher_dictionnaire(t_ptr_noeud dico){
     afficher_dictionnaire(frere_noeud(dico));
 }
 
-t_ptr_noeud ajout_plusieurs_fils(char* chaine){
+t_ptr_noeud ajout_plusieurs_fils(unsigned char* chaine){
   int i;
   t_ptr_noeud noeud;
 
@@ -216,7 +216,7 @@ t_ptr_noeud ajout_plusieurs_fils(char* chaine){
   return noeud;
 }
 
-t_ptr_noeud ajout_dico(t_ptr_noeud dico, char* chaine){
+t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
   //Fin de caractère, on retourne le dictionnaire
   if(chaine[0] == '\0')
     return dico;
