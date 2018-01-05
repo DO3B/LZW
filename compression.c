@@ -34,7 +34,7 @@
   do {
     code = fgetc(entree);
     res=concatene(tampon,lettre);
-    if(existedico(res)) tampon=res;
+    if(rechercher_dictionnaire(res)) tampon=res;
     else{
       ajout_dico(res);
       tampon=lettre;
