@@ -19,35 +19,56 @@
  * @file compression.c
  * @brief Contient tout les fonctions relatives à la compression
  */
-
 #include "compression.h"
-
 #include "dictionnaire.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
 
+char* lire_lettre(FILE* entree){
+  char* lettre = NULL;
+  int code;
+
+  code = fgetc(entree);
+
+  if(code != EOF){
+    lettre = malloc(sizeof(char)*2);
+    sprintf(lettre, "%c", code);
+  }
+
+  return lettre;
+}
+
+
 void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   char * tampon = NULL,
        * lettre = NULL,
        * res;
-  int code;
-
   do {
-    code = fgetc(entree);
-    printf("%d", code);
-    res = concatene(res, lettre);
-
+    lettre = lire_lettre(entree);
+    res = strcat(res, lettre);
     printf("%s\n", res);
 
-    if(rechercher_dictionnaire(dico,res))
-      tampon=res;
-    else{
+    if(rechercher_dictionnaire(dico,res)){
+      free(tampon);
+      free(lettre);
+
+      tampon = res;
+
+    }else{
       ajout_dico(dico,res);
-      tampon=lettre;
+      fprintf(sortie, "%c", rechercher_dictionnaire(dico, tampon));
+
+      free(tampon);
+      free(lettre);
+
+      tampon = lettre;
     }
-  } while(code != EOF);
+    
+    fprintf(sortie, "%c", rechercher_dictionnaire(dico, tampon));
+    free(tampon);
+  } while((lettre = lire_lettre(entree)) != NULL);
 }
 
 int lire_code (FILE* fichier) {

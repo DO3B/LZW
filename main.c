@@ -1,5 +1,4 @@
 #include "compression.h"
-#include "fichier.h"
 #include "dictionnaire.h"
 
 int main(int argc, char const *argv[]) {
