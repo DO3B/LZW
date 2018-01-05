@@ -26,4 +26,5 @@ t_ptr_noeud initialiser_dictionnaire();
 
 t_ptr_noeud creertab(int n);
 void afficher_dictionnaire(t_ptr_noeud dico);
+t_ptr_noeud ajout_mot(t_ptr_noeud dico, char* chaine);
 #endif

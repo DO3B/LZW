@@ -24,6 +24,7 @@
 
 #include "dictionnaire.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 /** @brief Renvoie le code du noeud
@@ -203,4 +204,42 @@ void afficher_dictionnaire(t_ptr_noeud dico){
 
   if(frere_noeud(dico) != NULL)
     afficher_dictionnaire(frere_noeud(dico));
+}
+
+t_ptr_noeud ajout_plusieurs_fils(char* chaine){
+  int i = strlen(chaine);
+  t_ptr_noeud noeud;
+
+  for(i=i-1; i >= 0; i--)
+    noeud = cree_noeud(chaine[i], NULL, noeud);
+
+  return noeud;
+}
+
+t_ptr_noeud ajout_dico(t_ptr_noeud dico, char* chaine){
+  //Fin de caractère, on retourne le dictionnaire
+  if(chaine[0] == '\0')
+    return dico;
+
+  if(dico == NULL)
+    dico = initialiser_dictionnaire();
+
+  t_ptr_noeud noeud = dico;
+  if(rechercher_dictionnaire(noeud, &chaine[0])){
+    int code = rechercher_dictionnaire(noeud, &chaine[0]);
+    noeud = table[code];
+    if(fils_noeud(noeud) != NULL){
+      while (frere_noeud(fils_noeud(noeud)) != NULL) {
+        noeud = frere_noeud(noeud);
+      }
+      if(strlen(chaine) == 2)
+        ajouter_frere(noeud, cree_noeud(chaine[1],noeud,NULL));
+      else
+        ajouter_frere(noeud,cree_noeud(chaine[1],noeud,ajout_plusieurs_fils(&chaine[2])));
+    }else
+      ajouter_fils(noeud, cree_noeud(chaine[1], NULL, ajout_plusieurs_fils(&chaine[2])));
+  } else
+    noeud = cree_noeud(chaine[0], dico, ajout_plusieurs_fils(&chaine[1]));
+
+  return noeud;
 }
