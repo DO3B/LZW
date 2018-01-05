@@ -75,12 +75,12 @@ void assigner_code(t_ptr_noeud noeud){
   static int code = 255;
   noeud->code = code;
 
-  //On initiliase le dico
-  if(code <= 255)
-    code--;
   //Le dico a fini d'être initialisé, donc code = 260
-  else if(code == 1)
+  if(code == 1)
     code = 260;
+  //On initiliase le dico
+  else if(code <= 255)
+    code--;
   //On ajoute juste un nouveau mot
   else
     code++;
