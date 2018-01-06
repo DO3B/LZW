@@ -26,6 +26,26 @@
 #include <assert.h>
 #include <string.h>
 
+unsigned char * concatener_chaines (unsigned char * chaine1, unsigned char * chaine2) {
+    unsigned char * chaine12;
+    int i, n1 = 0, n2 = 0;
+
+    if (chaine1 != NULL)
+        n1 = strlen ((char *)chaine1);
+    if (chaine2 != NULL)
+        n2 = strlen ((char *)chaine2);
+
+    chaine12 = malloc (sizeof (unsigned char) * (n1 + n2 + 1));
+    assert (chaine12 != NULL);
+    for (i = 0; i < n1; i++)
+        chaine12[i] = chaine1[i];
+    for (i = n1; i <= n1+n2; i++)
+        chaine12[i] = chaine2[i-n1];
+
+    return chaine12;
+}
+
+
 unsigned char* lire_lettre(FILE* entree){
   unsigned char* lettre = NULL;
   int code;
@@ -34,7 +54,7 @@ unsigned char* lire_lettre(FILE* entree){
 
   if(code != EOF){
     lettre = malloc(sizeof(unsigned char)*2);
-    sprintf((char*)lettre, "%s", (unsigned char*)code);
+    sprintf((char*)lettre, "%c", (unsigned char*)code);
   }
 
   printf("Ok!");
@@ -48,7 +68,8 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
                 * res;
   do {
     lettre = lire_lettre(entree);
-    res = strcpy(res, lettre);
+    res = concatener_chaines(tampon,lettre);
+    printf("%s\n",res );
 
     if(rechercher_dictionnaire(dico,res)){
       free(tampon);
@@ -61,7 +82,7 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
       fprintf(sortie, "%c", rechercher_dictionnaire(dico, tampon));
 
       free(tampon);
-      free(lettre);
+      free(res);
 
       tampon = lettre;
     }
