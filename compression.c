@@ -23,112 +23,64 @@
 #include "dictionnaire.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 
-unsigned char * concatener_chaines (unsigned char * chaine1, unsigned char * chaine2) {
-    unsigned char * chaine12;
-    int i, n1 = 0, n2 = 0;
-
-    if (chaine1 != NULL)
-        n1 = strlen ((char *)chaine1);
-    if (chaine2 != NULL)
-        n2 = strlen ((char *)chaine2);
-
-    chaine12 = malloc (sizeof (unsigned char) * (n1 + n2 + 1));
-    assert (chaine12 != NULL);
-    for (i = 0; i < n1; i++)
-        chaine12[i] = chaine1[i];
-    for (i = n1; i <= n1+n2; i++)
-        chaine12[i] = chaine2[i-n1];
-
-    return chaine12;
-}
-
-
 unsigned char* lire_lettre(FILE* entree){
-  if(entree == NULL){
-    printf("Pas de fichier en entrée");
-    return NULL;
-  }
-
   unsigned char* lettre = NULL;
   int code;
 
   code = fgetc(entree);
 
-
   if(code != EOF){
     lettre = malloc(sizeof(unsigned char)*2);
-<<<<<<< HEAD
-    sprintf((char*)lettre, "%c", (unsigned char)code);
-=======
-    sprintf((char*)lettre, "%c", (unsigned char*)code);
->>>>>>> adf5d1e75af05d6900f2de2891fab0d7949479c0
+    sprintf((char*) lettre, "%c", (unsigned char) code);
   }
-
   return lettre;
 }
 
-unsigned char * concatener_chaines (unsigned char * chaine1, unsigned char * chaine2) {
-    unsigned char * chaine12;
-    int i, n1 = 0, n2 = 0;
+unsigned char * concatener_chaines (unsigned char * ch1, unsigned char * ch2) {
+    unsigned char * resultat;
+    int i;
+    int longueur_ch1 = 0, longueur_ch2 = 0;
 
-    if (chaine1 != NULL)
-        n1 = strlen ((char *)chaine1);
-    if (chaine2 != NULL)
-        n2 = strlen ((char *)chaine2);
+    if (ch1 != NULL)
+        longueur_ch1 = strlen ((char *)ch1);
+    if (ch2 != NULL)
+        longueur_ch2 = strlen ((char *)ch2);
 
-    chaine12 = malloc (sizeof (unsigned char) * (n1 + n2 + 1));
-    assert (chaine12 != NULL);
-    for (i = 0; i < n1; i++)
-        chaine12[i] = chaine1[i];
-    for (i = n1; i <= n1+n2; i++)
-        chaine12[i] = chaine2[i-n1];
+    resultat = malloc (sizeof (unsigned char) * (longueur_ch1 + longueur_ch2 + 1));
 
-    return chaine12;
+    for (i = 0; i < longueur_ch1; i++)
+        resultat[i] = ch1[i];
+    for (i = longueur_ch1; i <= longueur_ch1 + longueur_ch2; i++)
+        resultat[i] = ch2[i-longueur_ch1];
+
+    return resultat;
 }
 
 void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
-  unsigned char * tampon = NULL;
+  unsigned char* tampon = NULL;
   unsigned char* res = NULL;
-  int lettre;
+  unsigned char* lettre;
 
-  printf("Ok");
-  do {
-<<<<<<< HEAD
-    lettre = fgetc(entree);
-    printf("%c", lettre);
-    res = concatener_chaines(res,(unsigned char*)lettre);
-=======
-    lettre = lire_lettre(entree);
+  while((lettre = lire_lettre(entree)) != NULL){
     res = concatener_chaines(tampon,lettre);
-    printf("%s\n",res );
->>>>>>> adf5d1e75af05d6900f2de2891fab0d7949479c0
 
-    if(rechercher_dictionnaire(dico,res)){
+    if(rechercher_caractere(dico,res) != 0){
       free(tampon);
+      free(lettre);
 
       tampon = res;
-
     }else{
       ajout_dico(dico,res);
-      fprintf(sortie, "%c", rechercher_dictionnaire(dico, tampon));
-
+      fprintf(sortie, "%d", rechercher_caractere(dico, tampon));
       free(tampon);
-<<<<<<< HEAD
-=======
       free(res);
->>>>>>> adf5d1e75af05d6900f2de2891fab0d7949479c0
 
-      tampon = (unsigned char*)lettre;
+      tampon = lettre;
     }
-
-    fprintf(sortie, "%c", rechercher_dictionnaire(dico, tampon));
-    free(tampon);
-
-  } while(lettre != EOF);
-
+  }
+  fprintf(sortie, "%d", rechercher_caractere(dico, tampon));
 }
 
 int lire_code (FILE* fichier) {
@@ -137,7 +89,7 @@ int lire_code (FILE* fichier) {
     return code;
 }
 
-/*void decompression(FILE* sortie, FILE* entree){
+void decompression(FILE* sortie, FILE* entree){
   unsigned char * previous = NULL;
   int code = lire_code(sortie);
   while (code != EOF){
@@ -145,4 +97,4 @@ int lire_code (FILE* fichier) {
     fputc(code, entree);
     code = lire_code(sortie);
   }
-}*/
+}

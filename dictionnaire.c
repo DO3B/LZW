@@ -78,7 +78,7 @@ void assigner_code(t_ptr_noeud noeud){
   //Le dico a fini d'être initialisé, donc code = 260
   if(code == 1)
     code = 260;
-  //On initiliase le dico
+  //On initialise le dico
   else if(code <= 255)
     code--;
   //On ajoute juste un nouveau mot
@@ -171,7 +171,7 @@ void supprimer_dictionnaire(t_ptr_noeud dico){
 * @param Chaîne de caractère
 * @return Le code de la chaîne
 */
-int rechercher_dictionnaire(t_ptr_noeud dico, unsigned char* chaine){
+int rechercher_caractere(t_ptr_noeud dico, unsigned char* chaine){
   t_ptr_noeud noeud = dico;
 
   if(dico == NULL){
@@ -183,14 +183,28 @@ int rechercher_dictionnaire(t_ptr_noeud dico, unsigned char* chaine){
     if(strlen((char*)chaine) == 1)
       return code_noeud(noeud);
     else
-      return rechercher_dictionnaire(fils_noeud(noeud), &chaine[1]);
+      return rechercher_caractere(fils_noeud(noeud), &chaine[1]);
   } else {
     if(lettre_noeud(noeud) > chaine[0])
       return 0;
     else
-      return rechercher_dictionnaire(frere_noeud(noeud), chaine);
+      return rechercher_caractere(frere_noeud(noeud), chaine);
   }
 }
+
+/*unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
+  t_ptr_noeud noeud = table[code];
+  unsigned char* mot = NULL;
+  int longueur_chaine;
+
+  if(fils_noeud(noeud) == NULL){
+    longueur_chaine = strlen((char*)lettre_noeud(noeud));
+    chaine[longueur_chaine] = lettre_noeud(noeud);
+    chaine[longueur_chaine + 1] = "\0";
+    return chaine;
+  }
+  if()
+}*/
 
 /** @brief Affiche le dictionnaire
 * @param Dictionnaire que l'on souhaite afficher
@@ -232,8 +246,8 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
     ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
   else
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
-  /*if(rechercher_dictionnaire(noeud, &chaine[0])){
-    int code = rechercher_dictionnaire(noeud, &chaine[0]);
+  /*if(rechercher_caractere(noeud, &chaine[0])){
+    int code = rechercher_caractere(noeud, &chaine[0]);
     noeud = table[code];
     if(fils_noeud(noeud) != NULL){
       while (frere_noeud(fils_noeud(noeud)) != NULL) {

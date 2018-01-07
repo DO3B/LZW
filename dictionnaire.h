@@ -23,7 +23,7 @@ t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils
 void ajouter_fils(t_ptr_noeud pere, t_ptr_noeud fils);
 void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere);
 t_ptr_noeud initialiser_dictionnaire();
-int rechercher_dictionnaire(t_ptr_noeud dico,unsigned char* chaine);
+int rechercher_caractere(t_ptr_noeud dico,unsigned char* chaine);
 void afficher_dictionnaire(t_ptr_noeud dico);
 t_ptr_noeud ajout_plusieurs_fils(unsigned char* chaine);
 t_ptr_noeud ajout_dico(t_ptr_noeud dico,unsigned char* chaine);
