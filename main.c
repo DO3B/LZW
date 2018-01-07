@@ -1,20 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "compression.h"
 #include "dictionnaire.h"
 
 int main(int argc, char const *argv[]) {
   int choix = 0;
 
-  FILE* entree = fopen("test.txt","r");
-  FILE* sortie = fopen("compresse.txt","rw");
-
-  t_ptr_noeud dico =initialiser_dictionnaire();
+  t_ptr_noeud dico = initialiser_dictionnaire();
   afficher_dictionnaire(dico);
-  /*printf("(1) pour Compression - (2) pour Décompression : \n");
+
+  FILE* fichier_entree = fopen("test","rw");
+  FILE* fichier_sortie = fopen("compresse","w");
+
+  printf("(1) pour Compression - (2) pour Décompression : \n");
   scanf("%d", &choix);
-  if (choix == 1)
-    compression(entree,sortie,dico);
+  if (choix == 1){
+    printf("Compression\n");
+    int lettre = fgetc(fichier_entree);
+    printf("%c", lettre);
+    compression(fichier_entree, fichier_sortie, dico);
+  }
   else
-    decompression(sortie,entree);*/
+    printf("Décompression\n");
 
   return 0;
 

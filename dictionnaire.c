@@ -180,7 +180,7 @@ int rechercher_dictionnaire(t_ptr_noeud dico, unsigned char* chaine){
 
   if(lettre_noeud(noeud) == chaine[0]){
   //si chaine a une seule lettre, retourne le code
-    if(strlen((unsigned char*)chaine) == 1)
+    if(strlen((char*)chaine) == 1)
       return code_noeud(noeud);
     else
       return rechercher_dictionnaire(fils_noeud(noeud), &chaine[1]);
@@ -210,7 +210,7 @@ t_ptr_noeud ajout_plusieurs_fils(unsigned char* chaine){
   int i;
   t_ptr_noeud noeud;
 
-  for(i=0; i != strlen(chaine); i++)
+  for(i=0; i != strlen((char*)chaine); i++)
     noeud = cree_noeud(chaine[i], NULL, noeud);
 
   return noeud;
