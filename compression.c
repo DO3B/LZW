@@ -81,6 +81,7 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
     }
   }
   fprintf(sortie, "%d", rechercher_caractere(dico, tampon));
+  free(tampon);
 }
 
 int lire_code (FILE* fichier) {
