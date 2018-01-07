@@ -26,6 +26,26 @@
 #include <assert.h>
 #include <string.h>
 
+unsigned char * concatener_chaines (unsigned char * chaine1, unsigned char * chaine2) {
+    unsigned char * chaine12;
+    int i, n1 = 0, n2 = 0;
+
+    if (chaine1 != NULL)
+        n1 = strlen ((char *)chaine1);
+    if (chaine2 != NULL)
+        n2 = strlen ((char *)chaine2);
+
+    chaine12 = malloc (sizeof (unsigned char) * (n1 + n2 + 1));
+    assert (chaine12 != NULL);
+    for (i = 0; i < n1; i++)
+        chaine12[i] = chaine1[i];
+    for (i = n1; i <= n1+n2; i++)
+        chaine12[i] = chaine2[i-n1];
+
+    return chaine12;
+}
+
+
 unsigned char* lire_lettre(FILE* entree){
   if(entree == NULL){
     printf("Pas de fichier en entrée");
@@ -40,7 +60,11 @@ unsigned char* lire_lettre(FILE* entree){
 
   if(code != EOF){
     lettre = malloc(sizeof(unsigned char)*2);
+<<<<<<< HEAD
     sprintf((char*)lettre, "%c", (unsigned char)code);
+=======
+    sprintf((char*)lettre, "%c", (unsigned char*)code);
+>>>>>>> adf5d1e75af05d6900f2de2891fab0d7949479c0
   }
 
   return lettre;
@@ -72,9 +96,15 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
 
   printf("Ok");
   do {
+<<<<<<< HEAD
     lettre = fgetc(entree);
     printf("%c", lettre);
     res = concatener_chaines(res,(unsigned char*)lettre);
+=======
+    lettre = lire_lettre(entree);
+    res = concatener_chaines(tampon,lettre);
+    printf("%s\n",res );
+>>>>>>> adf5d1e75af05d6900f2de2891fab0d7949479c0
 
     if(rechercher_dictionnaire(dico,res)){
       free(tampon);
@@ -86,6 +116,10 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
       fprintf(sortie, "%c", rechercher_dictionnaire(dico, tampon));
 
       free(tampon);
+<<<<<<< HEAD
+=======
+      free(res);
+>>>>>>> adf5d1e75af05d6900f2de2891fab0d7949479c0
 
       tampon = (unsigned char*)lettre;
     }
