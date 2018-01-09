@@ -19,7 +19,7 @@ t_ptr_noeud fils_noeud(t_ptr_noeud noeud);
 t_ptr_noeud pere_noeud(t_ptr_noeud noeud);
 void assigner_code(t_ptr_noeud noeud);
 void modifier_lettre(t_ptr_noeud noeud,unsigned char lettre);
-t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils);
+t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils, t_ptr_noeud pere);
 void ajouter_fils(t_ptr_noeud pere, t_ptr_noeud fils);
 void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere);
 t_ptr_noeud initialiser_dictionnaire();

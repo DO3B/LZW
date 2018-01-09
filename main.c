@@ -7,8 +7,6 @@ int main(int argc, char const *argv[]) {
   int choix = 0;
 
   t_ptr_noeud dico = initialiser_dictionnaire();
-  afficher_dictionnaire(dico);
-
   FILE* fichier_entree = fopen("test","r");
   if(fichier_entree != NULL)
     printf("Travail terminé !\n");
