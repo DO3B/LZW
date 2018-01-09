@@ -90,12 +90,21 @@ int lire_code (FILE* fichier) {
     return code;
 }
 
-void decompression(FILE* sortie, FILE* entree){
+void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   int code = lire_code(sortie);
+  previous=rechercher_mot(dico,code);
+
+  fprintf (sortie, "%s", previous);
+
   while (code != EOF){
-    printf("essai");
-    fputc(code, entree);
-    code = lire_code(sortie);
+    mot_lu=rechercher_mot(dico,code);
+    fprintf (sortie, "%s", mot_lu);
+    if(mot_lu==0){
+
+    }
+
+    res=concatener_chaines(previous, mot_lu);
   }
+  previous=mot_decode;
 }

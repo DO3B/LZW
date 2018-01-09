@@ -202,12 +202,33 @@ int rechercher_caractere(t_ptr_noeud dico, unsigned char* chaine){
   }
 }
 
+/*
 unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
   unsigned char* mot = NULL;
   int longueur_chaine;
-
+  if(fils_noeud(noeud) == NULL){
+    longueur_chaine = strlen((char*)lettre_noeud(noeud));
+    chaine[longueur_chaine] = lettre_noeud(noeud);
+    chaine[longueur_chaine + 1] = "\0";
+    return chaine;
+  }
+  if()
+}*/
+//fction avec table code :
+/*
+unsigned char* rechercher_mot(t_ptr_noeud dicon int code){
+t_ptr_noeud noeud = table[code];
+unsigned char* mot = lettre_noeud(noeud);
+tmp=pere_noeud(noeud);
+while(tmp.pere=!NULL){
+mot=concatener_chaines(mot,lettre_noeud(pere_noeud(tmp));
+tmp=pere_noeud(tmp);
 }
+return mot;
+}
+}
+*/@
 
 /** @brief Affiche le dictionnaire
 * @param Dictionnaire que l'on souhaite afficher
