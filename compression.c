@@ -90,7 +90,7 @@ int lire_code (FILE* fichier) {
     return code;
 }
 
-void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
+/*void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   int code = lire_code(sortie);
   previous=rechercher_mot(dico,code);
@@ -107,4 +107,4 @@ void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
     res=concatener_chaines(previous, mot_lu);
   }
   previous=mot_decode;
-}
+}*/

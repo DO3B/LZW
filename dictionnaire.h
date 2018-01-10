@@ -24,6 +24,7 @@ void ajouter_fils(t_ptr_noeud pere, t_ptr_noeud fils);
 void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere);
 t_ptr_noeud initialiser_dictionnaire();
 int rechercher_caractere(t_ptr_noeud dico,unsigned char* chaine);
+unsigned char* rechercher_mot(t_ptr_noeud dico, int code);
 void afficher_dictionnaire(t_ptr_noeud dico);
 t_ptr_noeud ajout_plusieurs_fils(unsigned char* chaine);
 t_ptr_noeud ajout_dico(t_ptr_noeud dico,unsigned char* chaine);

@@ -23,6 +23,7 @@
 
 
 #include "dictionnaire.h"
+#include "compression.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -216,19 +217,21 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   if()
 }*/
 //fction avec table code :
-/*
-unsigned char* rechercher_mot(t_ptr_noeud dicon int code){
-t_ptr_noeud noeud = table[code];
-unsigned char* mot = lettre_noeud(noeud);
-tmp=pere_noeud(noeud);
-while(tmp.pere=!NULL){
-mot=concatener_chaines(mot,lettre_noeud(pere_noeud(tmp));
-tmp=pere_noeud(tmp);
+
+unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
+
+  t_ptr_noeud noeud = table[code];
+  unsigned char* mot;
+  unsigned char lettre = lettre_noeud(noeud);
+  printf("%s\n", mot);
+
+  if (pere_noeud(noeud) == NULL)
+    return concatener_chaines(lettre, "\0");
+  else
+    return mot = concatener_chaines(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
+
 }
-return mot;
-}
-}
-*/@
+
 
 /** @brief Affiche le dictionnaire
 * @param Dictionnaire que l'on souhaite afficher
@@ -268,7 +271,7 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
   t_ptr_noeud noeud = dico;
 
   if(lettre_noeud(noeud) > chaine[0])
-    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]),NULL);
+    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]),pere_noeud(noeud));
   if(lettre_noeud(noeud) < chaine[0])
     ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
   else

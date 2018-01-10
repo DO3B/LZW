@@ -20,9 +20,13 @@ int main(int argc, char const *argv[]) {
     printf("Compression\n");
     compression(fichier_entree, fichier_sortie, dico);
   }
-  else
+  else {
     printf("Décompression\n");
+    unsigned char* essai = "abc";
+    dico = ajout_dico(dico, essai);
+    afficher_dictionnaire(dico);
     /*decompression(fichier_sortie,fichier_entree);*/
+  }
 
   fclose(fichier_entree);
   fclose(fichier_sortie);
