@@ -67,21 +67,15 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
     res = concat(tampon,lettre);
 
     if(rechercher_caractere(dico,res) != 0){
-      free(tampon);
-      free(lettre);
-
       tampon = res;
     }else{
       ajout_dico(dico,res);
-      fprintf(sortie, "%d", rechercher_caractere(dico, tampon));
-      free(tampon);
-      free(res);
+      fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
 
       tampon = lettre;
     }
   }
-  fprintf(sortie, "%d", rechercher_caractere(dico, tampon));
-  free(tampon);
+  fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
 }
 
 int lire_code (FILE* fichier) {
@@ -90,7 +84,7 @@ int lire_code (FILE* fichier) {
     return code;
 }
 
-/*void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
+void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   int code = lire_code(sortie);
   previous=rechercher_mot(dico,code);
@@ -114,14 +108,7 @@ int lire_code (FILE* fichier) {
     carac_mot_lu[0]=mot_lu[0];
     res=concat(previous, carac_mot_lu);
     ajout_dico(dico,res);
-    free(res);
-    free(previous);
     previous=mot_lu;
   }
-<<<<<<< HEAD
-  previous=mot_decode;
-}*/
-=======
 
 }
->>>>>>> 61eb0a77780f8e294b16a5af072695e95a612b4e

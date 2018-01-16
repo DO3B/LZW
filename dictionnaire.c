@@ -203,32 +203,16 @@ int rechercher_caractere(t_ptr_noeud dico, unsigned char* chaine){
   }
 }
 
-/*
 unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
-  t_ptr_noeud noeud = table[code];
-  unsigned char* mot = NULL;
-  int longueur_chaine;
-  if(fils_noeud(noeud) == NULL){
-    longueur_chaine = strlen((char*)lettre_noeud(noeud));
-    chaine[longueur_chaine] = lettre_noeud(noeud);
-    chaine[longueur_chaine + 1] = "\0";
-    return chaine;
-  }
-  if()
-}*/
-//fction avec table code :
-
-unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
-
   t_ptr_noeud noeud = table[code];
   unsigned char* mot;
   unsigned char lettre = lettre_noeud(noeud);
   printf("%s\n", mot);
 
   if (pere_noeud(noeud) == NULL)
-    return concatener_chaines(lettre, "\0");
+    return concat(lettre, "\0");
   else
-    return mot = concatener_chaines(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
+    return mot = concat(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
 
 }
 
@@ -252,10 +236,11 @@ void afficher_dictionnaire(t_ptr_noeud dico){
 
 t_ptr_noeud ajout_plusieurs_fils(unsigned char* chaine){
   int i;
-  t_ptr_noeud noeud;
+  t_ptr_noeud noeud = NULL;
 
-  for(i=0; i != strlen((char*)chaine); i++)
+  for(i= 0; i < strlen((char*)chaine) ; i++){
     noeud = cree_noeud(chaine[i], NULL, NULL, noeud);
+  }
 
   return noeud;
 }
@@ -270,12 +255,12 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
 
   t_ptr_noeud noeud = dico;
 
-  if(lettre_noeud(noeud) > chaine[0])
-    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]),pere_noeud(noeud));
-  if(lettre_noeud(noeud) < chaine[0])
-    ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
-  else
+  if(lettre_noeud(noeud) == chaine[0])
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
+  else if(lettre_noeud(noeud) > chaine[0])
+    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]),NULL);
+  else
+    ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
   /*if(rechercher_caractere(noeud, &chaine[0])){
     int code = rechercher_caractere(noeud, &chaine[0]);
     noeud = table[code];
