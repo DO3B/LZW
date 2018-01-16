@@ -38,7 +38,7 @@ unsigned char* lire_lettre(FILE* entree){
   return lettre;
 }
 
-unsigned char * concatener_chaines (unsigned char * ch1, unsigned char * ch2) {
+unsigned char * concat (unsigned char * ch1, unsigned char * ch2) {
     unsigned char * resultat;
     int i;
     int longueur_ch1 = 0, longueur_ch2 = 0;
@@ -64,7 +64,7 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char* lettre;
 
   while((lettre = lire_lettre(entree)) != NULL){
-    res = concatener_chaines(tampon,lettre);
+    res = concat(tampon,lettre);
 
     if(rechercher_caractere(dico,res) != 0){
       free(tampon);
@@ -98,13 +98,25 @@ void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
   fprintf (sortie, "%s", previous);
 
   while (code != EOF){
+    unsigned char* mot_lu=NULL;
+    unsigned char* res=NULL;
     mot_lu=rechercher_mot(dico,code);
-    fprintf (sortie, "%s", mot_lu);
-    if(mot_lu==0){
 
+    if(mot_lu==NULL) {
+      unsigned char* carac_previous=malloc (sizeof (unsigned char));
+      carac_previous[0]=previous[0];
+      mot_lu=concat(previous,carac_previous);
     }
 
-    res=concatener_chaines(previous, mot_lu);
+    fprintf (sortie, "%s", mot_lu);
+
+    unsigned char* carac_mot_lu=malloc (sizeof (unsigned char));
+    carac_mot_lu[0]=mot_lu[0];
+    res=concat(previous, carac_mot_lu);
+    ajout_dico(dico,res);
+    free(res);
+    free(previous);
+    previous=mot_lu;
   }
-  previous=mot_decode;
+
 }
