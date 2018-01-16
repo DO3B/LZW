@@ -209,7 +209,7 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   unsigned char lettre = lettre_noeud(noeud);
   printf("%s\n", mot);
 
-  if (pere_noeud(noeud) == NULL)
+  if (noeud == NULL)
     return concat(lettre, "\0");
   else
     return mot = concat(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
