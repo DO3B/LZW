@@ -22,9 +22,9 @@ int main(int argc, char const *argv[]) {
   }
   else {
     printf("Décompression\n");
-    unsigned char* essai = "abc";
+    unsigned char* essai = "ab";
     dico = ajout_dico(dico, essai);
-    afficher_dictionnaire(dico);
+    afficher_dictionnaire(table[260]);
     /*decompression(fichier_sortie,fichier_entree);*/
   }
 

@@ -224,14 +224,14 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
 void afficher_dictionnaire(t_ptr_noeud dico){
   printf("%d %c\n", code_noeud(dico), lettre_noeud(dico));
 
-  if(fils_noeud(dico) != NULL)
-    afficher_dictionnaire(fils_noeud(dico));
-
   if(frere_noeud(dico) != NULL)
     afficher_dictionnaire(frere_noeud(dico));
 
   if(pere_noeud(dico) != NULL)
     afficher_dictionnaire(pere_noeud(dico));
+
+  if(fils_noeud(dico) != NULL)
+    afficher_dictionnaire(fils_noeud(dico));
 }
 
 t_ptr_noeud ajout_plusieurs_fils(unsigned char* chaine){
@@ -257,25 +257,10 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
 
   if(lettre_noeud(noeud) == chaine[0])
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
-  else if(lettre_noeud(noeud) > chaine[0])
-    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]),NULL);
-  else
+  else if(lettre_noeud(noeud) > chaine[0]){
+    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]),NULL));
+  }else
     ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
-  /*if(rechercher_caractere(noeud, &chaine[0])){
-    int code = rechercher_caractere(noeud, &chaine[0]);
-    noeud = table[code];
-    if(fils_noeud(noeud) != NULL){
-      while (frere_noeud(fils_noeud(noeud)) != NULL) {
-        noeud = frere_noeud(noeud);
-      }
-      if(strlen(chaine) == 2)
-        ajouter_frere(noeud, cree_noeud(chaine[1],noeud,NULL));
-      else
-        ajouter_frere(noeud,cree_noeud(chaine[1],noeud,ajout_plusieurs_fils(&chaine[2])));
-    }else
-      ajouter_fils(noeud, cree_noeud(chaine[1], NULL, ajout_plusieurs_fils(&chaine[2])));
-  } else
-    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]));*/
 
   return noeud;
 }
