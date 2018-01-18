@@ -22,10 +22,11 @@ int main(int argc, char const *argv[]) {
   }
   else {
     printf("Décompression\n");
-    unsigned char* essai = "ab";
+    unsigned char* essai = "ebc";
+    unsigned char* essai2 = "etc";
     dico = ajout_dico(dico, essai);
-    afficher_dictionnaire(table[260]);
-    /*decompression(fichier_sortie,fichier_entree);*/
+    printf("%d\n", code_noeud(pere_noeud(table[260])));
+    /*decompression(fichier_sortie,fichier_entree, dico);*/
   }
 
   fclose(fichier_entree);

@@ -212,7 +212,7 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   if (noeud == NULL)
     return concat(lettre, "\0");
   else
-    return mot = concat(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
+    return mot = concat(lettre,rechercher_mot(pere_noeud(noeud), code_noeud(pere_noeud(noeud))));
 
 }
 
@@ -234,12 +234,13 @@ void afficher_dictionnaire(t_ptr_noeud dico){
     afficher_dictionnaire(fils_noeud(dico));
 }
 
-t_ptr_noeud ajout_plusieurs_fils(unsigned char* chaine){
+t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
   int i;
   t_ptr_noeud noeud = NULL;
 
   for(i= 0; i < strlen((char*)chaine) ; i++){
-    noeud = cree_noeud(chaine[i], NULL, NULL, noeud);
+    noeud = cree_noeud(chaine[i], NULL, NULL, pere);
+    pere = noeud;
   }
 
   return noeud;
@@ -250,17 +251,18 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
   if(chaine[0] == '\0')
     return dico;
 
-  if(dico == NULL)
-    return ajout_plusieurs_fils(chaine);
-
   t_ptr_noeud noeud = dico;
 
-  if(lettre_noeud(noeud) == chaine[0])
+  if(lettre_noeud(noeud) == chaine[0]){
+    if(fils_noeud(noeud) == NULL){
+      return ajout_plusieurs_fils(noeud,chaine);
+    }
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
-  else if(lettre_noeud(noeud) > chaine[0]){
-    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(&chaine[1]),NULL));
-  }else
+  }else if(lettre_noeud(noeud) > chaine[0]){
+    noeud = cree_noeud(chaine[0], noeud, ajout_plusieurs_fils(noeud, &chaine[1]),NULL);
+  }else{
     ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
+  }
 
   return noeud;
 }
