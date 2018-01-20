@@ -151,7 +151,7 @@ t_ptr_noeud initialiser_dictionnaire(){
   t_ptr_noeud dico = NULL;
   unsigned char lettre;
 
-  //Marche en décrémentant mais pas en incrémentant pour des raisons que j'ignore
+  //Marche en décrémentant mais pas en incrémentant (car assigner_code)
   for(lettre = 255; lettre != 0; lettre--)
     dico = cree_noeud(lettre,dico,NULL,NULL);
 
