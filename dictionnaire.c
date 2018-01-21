@@ -224,14 +224,14 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
 void afficher_dictionnaire(t_ptr_noeud dico){
   printf("%d %c\n", code_noeud(dico), lettre_noeud(dico));
 
+  if(fils_noeud(dico) != NULL)
+    afficher_dictionnaire(fils_noeud(dico));
+
   if(frere_noeud(dico) != NULL)
     afficher_dictionnaire(frere_noeud(dico));
 
 //  if(pere_noeud(dico) != NULL)
 //    afficher_dictionnaire(pere_noeud(dico));
-
-  if(fils_noeud(dico) != NULL)
-    afficher_dictionnaire(fils_noeud(dico));
 }
 
 t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
@@ -247,6 +247,18 @@ t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
 
   return pere;
 }
+
+/*t_ptr_noeud ajout_plusieurs_filsbg(t_ptr_noeud pere, unsigned char* chaine){
+  t_ptr_noeud noeud = NULL;
+  t_ptr_noeud tmp = pere;
+  int i;
+
+  for (i = 0; i < strlen((char*) chaine); i++) {
+    noeud= cree_noeud(chaine[i],NULL,NULL,tmp);
+    tmp=noeud;
+  }
+  return noeud;
+}*/
 
 t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
   //Fin de caractère, on retourne le dictionnaire
