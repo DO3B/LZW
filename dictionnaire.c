@@ -227,23 +227,25 @@ void afficher_dictionnaire(t_ptr_noeud dico){
   if(frere_noeud(dico) != NULL)
     afficher_dictionnaire(frere_noeud(dico));
 
-  if(pere_noeud(dico) != NULL)
-    afficher_dictionnaire(pere_noeud(dico));
+//  if(pere_noeud(dico) != NULL)
+//    afficher_dictionnaire(pere_noeud(dico));
 
   if(fils_noeud(dico) != NULL)
     afficher_dictionnaire(fils_noeud(dico));
 }
 
 t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
+  t_ptr_noeud arbre1=cree_noeud(chaine[0],NULL,NULL,pere);
+  ajouter_fils(pere,arbre1);
   int i;
-  t_ptr_noeud noeud = NULL;
-
-  for(i= 0; i < strlen((char*)chaine) ; i++){
-    noeud = cree_noeud(chaine[i], NULL, NULL, pere);
-    pere = noeud;
+  t_ptr_noeud arbretmp=NULL;
+  for(i=1; i<strlen((char*)chaine);i++){
+    arbretmp=cree_noeud(chaine[i],NULL,NULL,NULL);
+    ajouter_pere(arbretmp,table[code_noeud(arbretmp)-1]);
+    ajouter_fils(table[code_noeud(arbretmp)-1],arbretmp);
   }
 
-  return noeud;
+  return pere;
 }
 
 t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
@@ -255,7 +257,7 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
 
   if(lettre_noeud(noeud) == chaine[0]){
     if(fils_noeud(noeud) == NULL){
-      return ajout_plusieurs_fils(noeud,chaine);
+      return ajout_plusieurs_fils(noeud,&chaine[1]);
     }
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
   }else if(lettre_noeud(noeud) > chaine[0]){
