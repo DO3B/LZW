@@ -248,17 +248,18 @@ t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
   return pere;
 }
 
-/*t_ptr_noeud ajout_plusieurs_filsbg(t_ptr_noeud pere, unsigned char* chaine){
-  t_ptr_noeud noeud = NULL;
-  t_ptr_noeud tmp = pere;
+t_ptr_noeud ajout_plusieurs_filsbg(t_ptr_noeud pere, unsigned char* chaine){
+  t_ptr_noeud noeud = cree_noeud(chaine[0],NULL,NULL,pere);
+  t_ptr_noeud tmp=NULL;
   int i;
-
-  for (i = 0; i < strlen((char*) chaine); i++) {
-    noeud= cree_noeud(chaine[i],NULL,NULL,tmp);
+  ajouter_fils(pere,noeud);
+  for (i = 1; i<strlen((char*)chaine);i++){
     tmp=noeud;
+    noeud= cree_noeud(chaine[i],NULL,NULL,tmp);
+    ajouter_fils(tmp,noeud);
   }
-  return noeud;
-}*/
+  return pere;
+}
 
 t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
   //Fin de caractère, on retourne le dictionnaire

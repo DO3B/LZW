@@ -69,7 +69,7 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
     if(rechercher_caractere(dico,res) != 0){
       tampon = res;
     }else{
-      ajout_dico(dico,res);
+      dico=ajout_dico(dico,res);
       fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
 
       tampon = lettre;
@@ -107,7 +107,7 @@ void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
     unsigned char* carac_mot_lu=malloc (sizeof (unsigned char));
     carac_mot_lu[0]=mot_lu[0];
     res=concat(previous, carac_mot_lu);
-    ajout_dico(dico,res);
+    dico=ajout_dico(dico,res);
     previous=mot_lu;
   }
 
