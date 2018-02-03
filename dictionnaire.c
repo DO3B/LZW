@@ -207,12 +207,11 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
   unsigned char* mot;
   unsigned char lettre = lettre_noeud(noeud);
-  printf("%s\n", mot);
 
-  if (noeud == NULL)
-    return concat(lettre, "\0");
+  if (pere_noeud(noeud) == NULL)
+    return concat(mot, "\0");
   else
-    return mot = concat(lettre,rechercher_mot(pere_noeud(noeud), code_noeud(pere_noeud(noeud))));
+    return mot = concat(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
 
 }
 
@@ -269,14 +268,17 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
   t_ptr_noeud noeud = dico;
 
   if(lettre_noeud(noeud) == chaine[0]){
-    if(fils_noeud(noeud) == NULL){
+    if(fils_noeud(noeud) == NULL)
       return ajout_plusieurs_filsbg(noeud,&chaine[1]);
-    }
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
   }else if(lettre_noeud(noeud) > chaine[0]){
-    noeud = cree_noeud(chaine[0], noeud, NULL,NULL);
-    noeud=ajout_plusieurs_fils(noeud,&chaine[1]);
+    noeud = cree_noeud(chaine[0], noeud, NULL,pere_noeud(noeud));
+    noeud = ajout_plusieurs_filsbg(noeud,&chaine[1]);
   }else{
+    if(frere_noeud(noeud) == NULL){
+      noeud = cree_noeud(chaine[0], noeud, NULL, pere_noeud(noeud));
+      return ajout_plusieurs_filsbg(noeud, &chaine[1]);
+    }
     ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
   }
 
