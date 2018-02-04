@@ -233,7 +233,6 @@ unsigned char* rechercher_mot_ite(t_ptr_noeud dico, int code){
     motf[j]=mot[i];
     j++;
   }
-  free(mot);
   motf=concat(motf,"\0");
   return motf;
 }
