@@ -87,14 +87,14 @@ int lire_code (FILE* fichier) {
 void decompression(FILE* sortie, FILE* entree, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   int code = lire_code(sortie);
-  previous=rechercher_mot(dico,code);
+  previous=rechercher_mot_ite(dico,code);
 
   fprintf (sortie, "%s", previous);
 
   while (code != EOF){
     unsigned char* mot_lu=NULL;
     unsigned char* res=NULL;
-    mot_lu=rechercher_mot(dico,code);
+    mot_lu=rechercher_mot_ite(dico,code);
 
     if(mot_lu==NULL) {
       unsigned char* carac_previous=malloc (sizeof (unsigned char));

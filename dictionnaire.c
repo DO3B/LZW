@@ -202,19 +202,42 @@ int rechercher_caractere(t_ptr_noeud dico, unsigned char* chaine){
       return rechercher_caractere(frere_noeud(noeud), chaine);
   }
 }
-
+/*
 unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
+  printf("dsds\n");
   unsigned char* mot;
   unsigned char lettre = lettre_noeud(noeud);
 
   if (pere_noeud(noeud) == NULL)
-    return concat(mot, "\0");
+    return mot;
   else
     return mot = concat(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
 
-}
+}*/
 
+unsigned char* rechercher_mot_ite(t_ptr_noeud dico, int code){
+  t_ptr_noeud noeud = table[code];
+  unsigned char* mot=malloc(MAX * sizeof(unsigned char));
+  int i=1;
+  mot[0]=lettre_noeud(noeud);
+  while(pere_noeud(noeud)!=NULL){
+    noeud=pere_noeud(noeud);
+    mot[i]=lettre_noeud(noeud);
+    i++;
+  }
+
+  unsigned char* motf=malloc(i*sizeof(unsigned char));
+  int j=0;
+  for(i=i-1;i>=0;i--){
+    motf[j]=mot[i];
+    printf("%c\n",motf[j] );
+    j++;
+  }
+  free(mot);
+  motf=concat(motf,"\0");
+  return motf;
+}
 
 /** @brief Affiche le dictionnaire
 * @param Dictionnaire que l'on souhaite afficher
