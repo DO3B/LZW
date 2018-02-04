@@ -7,30 +7,26 @@ int main(int argc, char const *argv[]) {
   int choix = 0;
 
   t_ptr_noeud dico = initialiser_dictionnaire();
-  FILE* fichier_entree = fopen("test.txt","r");
-  if(fichier_entree != NULL)
-    printf("Travail terminé !\n");
-  else
-    printf("ça ne marche pas :'(");
-  FILE* fichier_sortie = fopen("compresse.txt","w");
 
   printf("(1) pour Compression - (2) pour Décompression : \n");
   scanf("%d", &choix);
   if (choix == 1){
+    FILE* fichier_entree = fopen("test","r");
+    FILE* fichier_sortie = fopen("compresse","w");
     printf("Compression\n");
     compression(fichier_entree, fichier_sortie, dico);
+    fclose(fichier_entree);
+    fclose(fichier_sortie);
   }
   else {
     printf("Décompression\n");
-    unsigned char* essai = "ebc";
-    unsigned char* essai2 = "etc";
-    dico = ajout_dico(dico, essai);
-    printf("%s\n",rechercher_mot_ite(dico,261) );
-    /*decompression(fichier_sortie,fichier_entree, dico);*/
+    FILE* fichier_entree = fopen("compresse","r");
+    FILE* fichier_sortie = fopen("decompresse","w+");
+    decompression(fichier_entree,fichier_sortie, dico);
+    fclose(fichier_entree);
+    fclose(fichier_sortie);
   }
 
-  fclose(fichier_entree);
-  fclose(fichier_sortie);
   return 0;
 
 

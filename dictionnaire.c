@@ -231,7 +231,6 @@ unsigned char* rechercher_mot_ite(t_ptr_noeud dico, int code){
   int j=0;
   for(i=i-1;i>=0;i--){
     motf[j]=mot[i];
-    printf("%c\n",motf[j] );
     j++;
   }
   free(mot);
