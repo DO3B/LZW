@@ -82,24 +82,21 @@ unsigned int lire_code (FILE* fichier) {
     unsigned int code = 0;
 
     fscanf (fichier, "%d", &code);
-
     return code;
 }
 
 void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
-  int code = lire_code(entree);
-  printf("%d\n", code);
-  previous=rechercher_mot_ite(dico,code);
+  unsigned int code = lire_code(entree);
+  previous = rechercher_mot_ite(dico,code);
 
   fprintf (sortie, "%s", previous);
 
-  while ((code = lire_code(entree)) != 0){
+  while ((code = lire_code(entree)) != 10){
     unsigned char* mot_lu=NULL;
     unsigned char* res=NULL;
 
     mot_lu=rechercher_mot_ite(dico,code);
-    printf("%s\n", mot_lu);
 
     if(mot_lu==NULL) {
       unsigned char* carac_previous=malloc (sizeof (unsigned char));
