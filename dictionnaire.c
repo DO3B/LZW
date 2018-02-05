@@ -220,6 +220,9 @@ unsigned char* rechercher_mot_ite(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
   unsigned char* mot=malloc(MAX * sizeof(unsigned char));
   int i=1;
+  if(noeud==NULL){
+    return mot=NULL;
+  }
   mot[0]=lettre_noeud(noeud);
   while(pere_noeud(noeud)!=NULL){
     noeud=pere_noeud(noeud);
