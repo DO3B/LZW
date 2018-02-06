@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]) {
   else {
     printf("Décompression\n");
     FILE* fichier_entree = fopen("compresse","r");
-    FILE* fichier_sortie = fopen("decompresse","w");
+    FILE* fichier_sortie = fopen("decompresse","w+");
     decompression(fichier_entree,fichier_sortie, dico);
     fclose(fichier_entree);
     fclose(fichier_sortie);

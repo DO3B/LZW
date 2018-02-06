@@ -89,7 +89,7 @@ void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   unsigned int code = lire_code(entree);
   printf("%d\n", code);
-  previous = rechercher_mot_ite(dico,code);
+  previous = rechercher_mot(dico,code);
   printf("%s", previous);
   fprintf (sortie, "%s", previous);
 
@@ -98,7 +98,7 @@ void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
     unsigned char* res=NULL;
     printf("%d\n", code);
 
-    mot_lu=rechercher_mot_ite(dico,code);
+    mot_lu=rechercher_mot(dico,code);
 
     if(mot_lu==NULL) {
       unsigned char* carac_previous=malloc (sizeof (unsigned char));
