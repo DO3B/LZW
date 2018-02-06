@@ -19,44 +19,13 @@
  * @file compression.c
  * @brief Contient tout les fonctions relatives à la compression
  */
+
 #include "compression.h"
 #include "dictionnaire.h"
+#include "lecture_ecriture.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-unsigned char* lire_lettre(FILE* entree){
-  unsigned char* lettre = NULL;
-  int code;
-
-  code = fgetc(entree);
-
-  if(code != EOF){
-    lettre = malloc(sizeof(unsigned char)*2);
-    sprintf((char*) lettre, "%c", (unsigned char) code);
-  }
-  return lettre;
-}
-
-unsigned char * concat (unsigned char * ch1, unsigned char * ch2) {
-    unsigned char * resultat;
-    int i;
-    int longueur_ch1 = 0, longueur_ch2 = 0;
-
-    if (ch1 != NULL)
-        longueur_ch1 = strlen ((char *)ch1);
-    if (ch2 != NULL)
-        longueur_ch2 = strlen ((char *)ch2);
-
-    resultat = malloc (sizeof (unsigned char) * (longueur_ch1 + longueur_ch2 + 1));
-
-    for (i = 0; i < longueur_ch1; i++)
-        resultat[i] = ch1[i];
-    for (i = longueur_ch1; i <= longueur_ch1 + longueur_ch2; i++)
-        resultat[i] = ch2[i-longueur_ch1];
-
-    return resultat;
-}
 
 void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char* tampon = NULL;
@@ -78,19 +47,10 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
 }
 
-unsigned int lire_code (FILE* fichier) {
-    unsigned int code = 0;
-
-    fscanf (fichier, "%d", &code);
-    return code;
-}
-
 void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   unsigned int code = lire_code(entree);
-  printf("%d\n", code);
-  previous = rechercher_mot_ite(dico,code);
-  printf("%s", previous);
+  previous = rechercher_mot(dico,code);
   fprintf (sortie, "%s", previous);
 
   while ((code = lire_code(entree)) != 0){
@@ -98,7 +58,7 @@ void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
     unsigned char* res=NULL;
     printf("%d\n", code);
 
-    mot_lu=rechercher_mot_ite(dico,code);
+    mot_lu=rechercher_mot(dico,code);
 
     if(mot_lu==NULL) {
       unsigned char* carac_previous=malloc (sizeof (unsigned char));
@@ -108,11 +68,11 @@ void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
 
     fprintf (sortie, "%s", mot_lu);
 
-    unsigned char* carac_mot_lu=malloc (sizeof (unsigned char));
-    carac_mot_lu[0]=mot_lu[0];
-    res=concat(previous, carac_mot_lu);
-    dico=ajout_dico(dico,res);
-    previous=mot_lu;
+    unsigned char* carac_mot_lu = malloc (sizeof (unsigned char));
+    carac_mot_lu[0] = mot_lu[0];
+    res = concat(previous, carac_mot_lu);
+    dico = ajout_dico(dico,res);
+    previous = mot_lu;
   }
 
 }

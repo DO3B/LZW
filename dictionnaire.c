@@ -233,7 +233,7 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
 
 }*/
 
-unsigned char* rechercher_mot_ite(t_ptr_noeud dico, int code){
+unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
   unsigned char* mot = malloc(MAX * sizeof(unsigned char));
   int i = 1;
@@ -278,7 +278,7 @@ void afficher_dictionnaire(t_ptr_noeud dico){
 //    afficher_dictionnaire(pere_noeud(dico));
 }
 
-t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
+/*t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
   t_ptr_noeud arbre1 = cree_noeud(chaine[0],NULL,NULL,pere,0);
   ajouter_fils(pere,arbre1);
   int i;
@@ -291,9 +291,9 @@ t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
   }
 
   return pere;
-}
+}*/
 
-t_ptr_noeud ajout_plusieurs_filsbg(t_ptr_noeud pere, unsigned char* chaine){
+t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere, unsigned char* chaine){
   t_ptr_noeud noeud = cree_noeud(chaine[0],NULL,NULL,pere,0);
   t_ptr_noeud tmp = NULL;
   int i;
@@ -316,15 +316,15 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
 
   if(lettre_noeud(noeud) == chaine[0]){
     if(fils_noeud(noeud) == NULL)
-      return ajout_plusieurs_filsbg(noeud,&chaine[1]);
+      return ajout_plusieurs_fils(noeud,&chaine[1]);
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
   }else if(lettre_noeud(noeud) > chaine[0]){
     noeud = cree_noeud(chaine[0], noeud, NULL,pere_noeud(noeud),0);
-    noeud = ajout_plusieurs_filsbg(noeud,&chaine[1]);
+    noeud = ajout_plusieurs_fils(noeud,&chaine[1]);
   }else{
     if(frere_noeud(noeud) == NULL){
       noeud = cree_noeud(chaine[0], noeud, NULL, pere_noeud(noeud),0);
-      return ajout_plusieurs_filsbg(noeud, &chaine[1]);
+      return ajout_plusieurs_fils(noeud, &chaine[1]);
     }
     ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
   }
