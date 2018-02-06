@@ -82,7 +82,7 @@ void assigner_code(t_ptr_noeud noeud, int initialise){
 
   if(initialise){
     code = 255;
-    code_max = (int) pow (2,NB_BITS) - 1;
+    code_max = MAX - 1;
     PLEIN = 0;
   }
 
@@ -219,25 +219,13 @@ int rechercher_caractere(t_ptr_noeud dico, unsigned char* chaine){
       return rechercher_caractere(frere_noeud(noeud), chaine);
   }
 }
-/*
-unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
-  t_ptr_noeud noeud = table[code];
-  printf("dsds\n");
-  unsigned char* mot;
-  unsigned char lettre = lettre_noeud(noeud);
 
-  if (pere_noeud(noeud) == NULL)
-    return mot;
-  else
-    return mot = concat(lettre,rechercher_mot(dico, code_noeud(pere_noeud(noeud))));
-
-}*/
 
 unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
+
   unsigned char* mot = malloc(MAX * sizeof(unsigned char));
   int i = 1;
-
   if(noeud == NULL){
     return mot = NULL;
   }

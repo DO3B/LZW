@@ -50,7 +50,13 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
 void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   unsigned int code = lire_code(entree);
+<<<<<<< HEAD
   previous = rechercher_mot(dico,code);
+=======
+  printf("%d\n", code);
+  previous = rechercher_mot(dico,code);
+  printf("%s", previous);
+>>>>>>> c1b93b764114e43cc7e23fcc13a66907bbc7bfa5
   fprintf (sortie, "%s", previous);
 
   while ((code = lire_code(entree)) != 0){
