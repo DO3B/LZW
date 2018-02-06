@@ -88,13 +88,15 @@ unsigned int lire_code (FILE* fichier) {
 void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   unsigned int code = lire_code(entree);
+  printf("%d\n", code);
   previous = rechercher_mot_ite(dico,code);
-
+  printf("%s", previous);
   fprintf (sortie, "%s", previous);
 
-  while ((code = lire_code(entree)) != 10){
+  while ((code = lire_code(entree)) != 0){
     unsigned char* mot_lu=NULL;
     unsigned char* res=NULL;
+    printf("%d\n", code);
 
     mot_lu=rechercher_mot_ite(dico,code);
 

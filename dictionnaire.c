@@ -27,6 +27,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+#include <assert.h>
+
+int PLEIN = 0;
 
 /** @brief Renvoie le code du noeud
 * @param noeud -> noeud dont on souhaite connaître le code
@@ -72,8 +76,17 @@ t_ptr_noeud pere_noeud(t_ptr_noeud noeud){
 * @param noeud -> noeud que l'on souhaite modifier
 * @return rien
 */
-void assigner_code(t_ptr_noeud noeud){
+void assigner_code(t_ptr_noeud noeud, int initialise){
   static int code = 255;
+  static int code_max = 0;
+
+  if(initialise){
+    code = 255;
+    code_max = (int) pow (2,NB_BITS) - 1;
+    PLEIN = 0;
+  }
+
+  assert(PLEIN == 0);
   noeud->code = code;
 
   //Le dico a fini d'être initialisé, donc code = 260
@@ -85,6 +98,9 @@ void assigner_code(t_ptr_noeud noeud){
   //On ajoute juste un nouveau mot
   else
     code++;
+
+  if(code >= code_max)
+    PLEIN = 1;
 }
 
 /** @brief Modifie la lettre du noeud ou l'ajoute
@@ -130,7 +146,7 @@ void ajouter_pere(t_ptr_noeud noeud, t_ptr_noeud pere){
 * @param fils -> pointeur vers le fils
 * @return Un nouveau noeud avec les paramètres ci-dessus
 */
-t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils, t_ptr_noeud pere){
+t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils, t_ptr_noeud pere, int initialise){
   t_ptr_noeud nouveau;
   nouveau = (t_ptr_noeud) malloc(sizeof(t_noeud));
 
@@ -138,7 +154,7 @@ t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils
   ajouter_fils(nouveau, fils);
   ajouter_frere(nouveau, frere);
   ajouter_pere(nouveau, pere);
-  assigner_code(nouveau);
+  assigner_code(nouveau, initialise);
   table[code_noeud(nouveau)] = nouveau;
 
   return nouveau;
@@ -149,11 +165,12 @@ t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils
 */
 t_ptr_noeud initialiser_dictionnaire(){
   t_ptr_noeud dico = NULL;
-  unsigned char lettre;
+  unsigned char lettre = 255;
 
+  dico = cree_noeud(lettre, dico, NULL, NULL, 1);
   //Marche en décrémentant mais pas en incrémentant (car assigner_code)
-  for(lettre = 255; lettre != 0; lettre--)
-    dico = cree_noeud(lettre,dico,NULL,NULL);
+  for(lettre = 254; lettre != 0; lettre--)
+    dico = cree_noeud(lettre,dico,NULL,NULL,0);
 
   return dico;
 }
@@ -218,25 +235,29 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
 
 unsigned char* rechercher_mot_ite(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
-  unsigned char* mot=malloc(MAX * sizeof(unsigned char));
-  int i=1;
-  if(noeud==NULL){
-    return mot=NULL;
+  unsigned char* mot = malloc(MAX * sizeof(unsigned char));
+  int i = 1;
+
+  if(noeud == NULL){
+    return mot = NULL;
   }
+
   mot[0]=lettre_noeud(noeud);
-  while(pere_noeud(noeud)!=NULL){
-    noeud=pere_noeud(noeud);
-    mot[i]=lettre_noeud(noeud);
+
+  while(pere_noeud(noeud) != NULL){
+    noeud = pere_noeud(noeud);
+    mot[i] = lettre_noeud(noeud);
     i++;
   }
 
-  unsigned char* motf=malloc(i*sizeof(unsigned char));
-  int j=0;
-  for(i=i-1;i>=0;i--){
-    motf[j]=mot[i];
+  unsigned char* motf = malloc(i*sizeof(unsigned char));
+  int j = 0;
+
+  for(i = i - 1 ; i >= 0; i--){
+    motf[j] = mot[i];
     j++;
   }
-  motf=concat(motf,"\0");
+  motf = concat(motf,"\0");
   return motf;
 }
 
@@ -258,12 +279,13 @@ void afficher_dictionnaire(t_ptr_noeud dico){
 }
 
 t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
-  t_ptr_noeud arbre1=cree_noeud(chaine[0],NULL,NULL,pere);
+  t_ptr_noeud arbre1 = cree_noeud(chaine[0],NULL,NULL,pere,0);
   ajouter_fils(pere,arbre1);
   int i;
-  t_ptr_noeud arbretmp=NULL;
+  t_ptr_noeud arbretmp = NULL;
+
   for(i=1; i<strlen((char*)chaine);i++){
-    arbretmp=cree_noeud(chaine[i],NULL,NULL,NULL);
+    arbretmp = cree_noeud(chaine[i],NULL,NULL,NULL,0);
     ajouter_pere(arbretmp,table[code_noeud(arbretmp)-1]);
     ajouter_fils(table[code_noeud(arbretmp)-1],arbretmp);
   }
@@ -272,13 +294,14 @@ t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
 }
 
 t_ptr_noeud ajout_plusieurs_filsbg(t_ptr_noeud pere, unsigned char* chaine){
-  t_ptr_noeud noeud = cree_noeud(chaine[0],NULL,NULL,pere);
-  t_ptr_noeud tmp=NULL;
+  t_ptr_noeud noeud = cree_noeud(chaine[0],NULL,NULL,pere,0);
+  t_ptr_noeud tmp = NULL;
   int i;
+
   ajouter_fils(pere,noeud);
   for (i = 1; i<strlen((char*)chaine);i++){
     tmp=noeud;
-    noeud= cree_noeud(chaine[i],NULL,NULL,tmp);
+    noeud= cree_noeud(chaine[i],NULL,NULL,tmp,0);
     ajouter_fils(tmp,noeud);
   }
   return pere;
@@ -296,11 +319,11 @@ t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
       return ajout_plusieurs_filsbg(noeud,&chaine[1]);
     ajouter_fils(noeud, ajout_dico(fils_noeud(noeud), &chaine[1]));
   }else if(lettre_noeud(noeud) > chaine[0]){
-    noeud = cree_noeud(chaine[0], noeud, NULL,pere_noeud(noeud));
+    noeud = cree_noeud(chaine[0], noeud, NULL,pere_noeud(noeud),0);
     noeud = ajout_plusieurs_filsbg(noeud,&chaine[1]);
   }else{
     if(frere_noeud(noeud) == NULL){
-      noeud = cree_noeud(chaine[0], noeud, NULL, pere_noeud(noeud));
+      noeud = cree_noeud(chaine[0], noeud, NULL, pere_noeud(noeud),0);
       return ajout_plusieurs_filsbg(noeud, &chaine[1]);
     }
     ajouter_frere(noeud, ajout_dico(frere_noeud(noeud), chaine));
