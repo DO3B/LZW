@@ -59,9 +59,9 @@ void mise_a_un(unsigned char *tampon, unsigned int i){
   *tampon = *tampon | deux_puissances[i];
 }
 
-void ecrire_binaire(FILE* fichier_sortie, unsigned int code, int vider_tampon) {
+void ecrire_binaire (FILE* fichier_sortie, unsigned int code, int vider_tampon) {
     static unsigned char tampon = 0;
-    static int indice = 7; //7 car 1 octets (0 à 7)
+    static int indice = 7; //7 car 1 octets
     int i;
 
     for (i = NB_BITS - 1; i >= 0; i--) {
@@ -87,13 +87,12 @@ void ecrire_binaire(FILE* fichier_sortie, unsigned int code, int vider_tampon) {
     }
 }
 
-int lire_binaire(FILE* entree) {
-    unsigned char tampon = 0; /* Debut d'ecriture dans le tampon à droite */
-    unsigned int indice = 0;
+int lire_binaire (FILE* entree) {
+    static unsigned char tampon = 0;
+    static unsigned int indice = 0;
     unsigned int code;
     int i, nb_bits, tmp = 0;
 
-    /* Recuperation des bits restants du tampon */
     nb_bits = NB_BITS - indice;
     code = ((int)tampon) << nb_bits;
 
@@ -104,14 +103,12 @@ int lire_binaire(FILE* entree) {
         code = code | tmp;
     }
 
-    /* Lecture du dernier paquet de 8 bits dont les non utilisés iront dans le tampon */
     if (nb_bits % 8 != 0) {
         fread (&tampon, sizeof (unsigned char), 1, entree);
 
         tmp = ((int)tampon) >> (8 - nb_bits % 8);
         code = code | tmp;
 
-        /* Stockage dans le tampon des bits restants */
         indice = 8 - nb_bits % 8;
         tampon = tampon << (8 - indice);
         tampon = tampon >> (8 - indice);

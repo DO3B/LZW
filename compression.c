@@ -63,16 +63,16 @@ void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   fprintf (sortie, "%s", previous);
 
   while ((code = lire_binaire(entree)) != 0){
-    unsigned char* mot_lu=NULL;
-    unsigned char* res=NULL;
+    unsigned char* mot_lu = NULL;
+    unsigned char* res = NULL;
     printf("%d\n", code);
 
     mot_lu=rechercher_mot(dico,code);
 
-    if(mot_lu==NULL) {
-      unsigned char* carac_previous=malloc (sizeof (unsigned char));
-      carac_previous[0]=previous[0];
-      mot_lu=concat(previous,carac_previous);
+    if(mot_lu == NULL) {
+      unsigned char* carac_previous = malloc (sizeof (unsigned char));
+      carac_previous[0] = previous[0];
+      mot_lu = concat(previous,carac_previous);
     }
 
     fprintf (sortie, "%s", mot_lu);
