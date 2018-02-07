@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "compression.h"
 #include "dictionnaire.h"
 
@@ -10,7 +11,16 @@ int main(int argc, char const *argv[]) {
   int i, a; //mesure du temps
 
   t_ptr_noeud dico = initialiser_dictionnaire();
+  if(argc == 3 & strcmp("c",argv[1]) == 0){
+    printf("%s\n", argv[3]);
+    FILE* fichier_entree = fopen(argv[2],"r");
+    FILE* fichier_sortie = fopen(argv[3],"wb");
+    compression(fichier_entree, fichier_sortie, dico);
+    fclose(fichier_entree);
+    fclose(fichier_sortie);
+  } else if(argc == 3 & strcmp("d",argv[1]) == 0) {
 
+  }
   printf("(1) pour Compression - (2) pour Décompression : \n");
   scanf("%d", &choix);
   if (choix == 1){
