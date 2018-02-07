@@ -65,8 +65,7 @@ void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   while ((code = lire_binaire(entree)) != 0){
     unsigned char* mot_lu = NULL;
     unsigned char* res = NULL;
-    printf("%d\n", code);
-
+    
     mot_lu=rechercher_mot(dico,code);
 
     if(mot_lu == NULL) {
