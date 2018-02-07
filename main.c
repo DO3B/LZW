@@ -42,7 +42,7 @@ int main(int argc, char const *argv[]) {
   printf("taille fichier_sortie: %li octet(s)\n", ftell(fichier_sortie));
 
   //Taux compression
-  printf("Taux de compression =%f\n",(double)ftell(fichier_sortie)/(double)ftell(fichier_entree) );
+  printf("Taux de compression =%f %%\n",(double)(ftell(fichier_sortie)*100)/(double)ftell(fichier_entree) );
 
   fclose(fichier_entree);
   fclose(fichier_sortie);
