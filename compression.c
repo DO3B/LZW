@@ -45,21 +45,24 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
         dico = ajout_dico(dico,res);
       }
 
-      fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+      //fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+      ecrire_binaire_code(sortie, rechercher_caractere(dico, tampon), 0);
 
       tampon = lettre;
     }
   }
-  fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+
+  //fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+  ecrire_binaire_code(sortie, rechercher_caractere(dico, tampon), 1);
 }
 
 void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
-  unsigned int code = lire_code(entree);
+  unsigned int code = lire_binaire_code(entree);
   previous = rechercher_mot(dico,code);
   fprintf (sortie, "%s", previous);
 
-  while ((code = lire_code(entree)) != 0){
+  while ((code = lire_binaire_code(entree)) != 0){
     unsigned char* mot_lu=NULL;
     unsigned char* res=NULL;
     printf("%d\n", code);
