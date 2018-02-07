@@ -27,6 +27,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern int PLEIN;
+
 void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char* tampon = NULL;
   unsigned char* res = NULL;
@@ -38,7 +40,11 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
     if(rechercher_caractere(dico,res) != 0){
       tampon = res;
     }else{
-      dico=ajout_dico(dico,res);
+      //On ajoute au dico seulement si le dico est pas plein.
+      if (PLEIN == 0) {
+        dico = ajout_dico(dico,res);
+      }
+
       fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
 
       tampon = lettre;
@@ -50,13 +56,7 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
 void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
   unsigned int code = lire_code(entree);
-<<<<<<< HEAD
   previous = rechercher_mot(dico,code);
-=======
-  printf("%d\n", code);
-  previous = rechercher_mot(dico,code);
-  printf("%s", previous);
->>>>>>> c1b93b764114e43cc7e23fcc13a66907bbc7bfa5
   fprintf (sortie, "%s", previous);
 
   while ((code = lire_code(entree)) != 0){
@@ -76,8 +76,13 @@ void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
 
     unsigned char* carac_mot_lu = malloc (sizeof (unsigned char));
     carac_mot_lu[0] = mot_lu[0];
+
     res = concat(previous, carac_mot_lu);
-    dico = ajout_dico(dico,res);
+
+    if (PLEIN == 0) {
+      dico = ajout_dico(dico,res);
+    }
+
     previous = mot_lu;
   }
 

@@ -1,6 +1,6 @@
 #ifndef __DICTIONNAIRE_H_
 #define __DICTIONNAIRE_H_
-#define NB_BITS 9
+#define NB_BITS 10
 #define MAX 1024
 
 typedef struct noeud{
