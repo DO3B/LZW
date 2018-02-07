@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]) {
   scanf("%d", &choix);
   if (choix == 1){
     FILE* fichier_entree = fopen("test","r");
-    FILE* fichier_sortie = fopen("compresse","w");
+    FILE* fichier_sortie = fopen("compresse","wb");
     printf("Compression\n");
     compression(fichier_entree, fichier_sortie, dico);
     fclose(fichier_entree);
@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
   }
   else {
     printf("Décompression\n");
-    FILE* fichier_entree = fopen("compresse","r");
+    FILE* fichier_entree = fopen("compresse","rb");
     FILE* fichier_sortie = fopen("decompresse","w+");
     decompression(fichier_entree,fichier_sortie, dico);
     fclose(fichier_entree);
