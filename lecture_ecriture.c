@@ -59,7 +59,7 @@ void mise_a_un(unsigned char *tampon, unsigned int i){
   *tampon = *tampon | deux_puissances[i];
 }
 
-void ecrire_binaire_code (FILE* fichier_sortie, unsigned int code, int vider_tampon) {
+void ecrire_binaire(FILE* fichier_sortie, unsigned int code, int vider_tampon) {
     static unsigned char tampon = 0;
     static int indice = 7; //7 car 1 octets (0 à 7)
     int i;
@@ -87,7 +87,7 @@ void ecrire_binaire_code (FILE* fichier_sortie, unsigned int code, int vider_tam
     }
 }
 
-int lire_binaire_code (FILE* entree) {
+int lire_binaire(FILE* entree) {
     unsigned char tampon = 0; /* Debut d'ecriture dans le tampon à droite */
     unsigned int indice = 0;
     unsigned int code;
