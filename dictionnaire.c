@@ -86,7 +86,6 @@ void assigner_code(t_ptr_noeud noeud, int initialise){
     PLEIN = 0;
   }
 
-  assert(PLEIN == 0);
   noeud->code = code;
 
   //Le dico a fini d'être initialisé, donc code = 260
