@@ -42,3 +42,81 @@ unsigned int lire_code (FILE* fichier) {
     fscanf (fichier, "%d", &code);
     return code;
 }
+
+unsigned int puissance(char bit){
+  int i, res=1;
+  for (i=0; i< bit; i++) res*=2;
+  return res;
+}
+
+void mise_a_un(unsigned char *tampon, unsigned int i){
+  unsigned int deux_puissances[32];
+  int j;
+
+  for(j = 0; j < 32; j++)
+    deux_puissances[j] = puissance(j);
+
+  *tampon = *tampon | deux_puissances[i];
+}
+
+void ecrire_binaire (FILE* fichier_sortie, unsigned int code, int vider_tampon) {
+    static unsigned char tampon = 0;
+    static int indice = 7; //7 car 1 octets
+    int i;
+
+    for (i = NB_BITS - 1; i >= 0; i--) {
+        int bit = ((code >> i) & 1);
+
+        if(bit){
+          mise_a_un(&tampon, indice);
+        }
+
+        if (indice == 0) {
+            fwrite (&tampon, sizeof (unsigned char), 1, fichier_sortie);
+            tampon = 0;
+            indice = 7;
+        }
+        else
+            indice--;
+    }
+
+    if (vider_tampon) {
+        fwrite (&tampon, sizeof (unsigned char), 1, fichier_sortie);
+        tampon = 0;
+        indice = 7;
+    }
+}
+
+int lire_binaire (FILE* entree) {
+    static unsigned char tampon = 0;
+    static unsigned int indice = 0;
+    unsigned int code;
+    int i, nb_bits, tmp = 0;
+
+    nb_bits = NB_BITS - indice;
+    code = ((int)tampon) << nb_bits;
+
+    for (i = 1; i <= (nb_bits / 8); i++) {
+        fread (&tampon, sizeof (unsigned char), 1, entree);
+
+        tmp = ((int)tampon) << (nb_bits - 8*i);
+        code = code | tmp;
+    }
+
+    if (nb_bits % 8 != 0) {
+        fread (&tampon, sizeof (unsigned char), 1, entree);
+
+        tmp = ((int)tampon) >> (8 - nb_bits % 8);
+        code = code | tmp;
+
+        indice = 8 - nb_bits % 8;
+        tampon = tampon << (8 - indice);
+        tampon = tampon >> (8 - indice);
+    }
+    else {
+        tampon = 0;
+        indice = 0;
+    }
+
+    return code;
+}

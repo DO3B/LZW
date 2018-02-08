@@ -45,31 +45,33 @@ void compression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
         dico = ajout_dico(dico,res);
       }
 
-      fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+      //fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+      ecrire_binaire(sortie, rechercher_caractere(dico, tampon), 0);
 
       tampon = lettre;
     }
   }
-  fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+
+  //fprintf(sortie, "%d ", rechercher_caractere(dico, tampon));
+  ecrire_binaire(sortie, rechercher_caractere(dico, tampon), 1);
 }
 
 void decompression(FILE* entree, FILE* sortie, t_ptr_noeud dico){
   unsigned char * previous = NULL;
-  unsigned int code = lire_code(entree);
+  unsigned int code = lire_binaire(entree);
   previous = rechercher_mot(dico,code);
   fprintf (sortie, "%s", previous);
 
-  while ((code = lire_code(entree)) != 0){
-    unsigned char* mot_lu=NULL;
-    unsigned char* res=NULL;
-    printf("%d\n", code);
-
+  while ((code = lire_binaire(entree)) != 0){
+    unsigned char* mot_lu = NULL;
+    unsigned char* res = NULL;
+    
     mot_lu=rechercher_mot(dico,code);
 
-    if(mot_lu==NULL) {
-      unsigned char* carac_previous=malloc (sizeof (unsigned char));
-      carac_previous[0]=previous[0];
-      mot_lu=concat(previous,carac_previous);
+    if(mot_lu == NULL) {
+      unsigned char* carac_previous = malloc (sizeof (unsigned char));
+      carac_previous[0] = previous[0];
+      mot_lu = concat(previous,carac_previous);
     }
 
     fprintf (sortie, "%s", mot_lu);
