@@ -1,8 +1,35 @@
+/**
+ *
+ * Polytech Marseille
+ * Case 925 - 163, avenue de Luminy
+ * 13288 Marseille CEDEX 9
+ *
+ * Ce fichier est l'oeuvre d'eleves de Polytech Marseille. Il ne peut etre
+ * reproduit, utilise ou modifie sans l'avis express de ses auteurs.
+ */
+
+/**
+ * @author JEAN Léo <leo.jean@etu.univ-amu.fr>
+ * @author MAYOL Loïc <loic.mayol@etu.univ-amu.fr>
+ *
+ * @version 1.0.0 / 08-02-2018
+ */
+
+/**
+ * @file lecture_ecriture.c
+ * @brief Contient tout les fonctions relatives à la lecture et l'écriute mais aussi
+ * concat
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "dictionnaire.h"
 
+/** @brief Va lire la lettre du fichier en argument
+* @param entree -> fichier que l'on souhaite lire
+* @return lettre lue
+*/
 unsigned char* lire_lettre(FILE* entree){
   unsigned char* lettre = NULL;
   int code;
@@ -16,6 +43,11 @@ unsigned char* lire_lettre(FILE* entree){
   return lettre;
 }
 
+/** @brief Concatène les deux chaînes de caractères en argument.
+* @param ch1 -> première chaîne
+* @param ch2 -> deuxième chaîne
+* @return une chaîne
+*/
 unsigned char * concat (unsigned char * ch1, unsigned char * ch2) {
     unsigned char * resultat;
     int i;
@@ -36,6 +68,10 @@ unsigned char * concat (unsigned char * ch1, unsigned char * ch2) {
     return resultat;
 }
 
+/** @brief Va lire le code du fichier en argument
+* @param entree -> fichier que l'on souhaite lire
+* @return code lu
+*/
 unsigned int lire_code (FILE* fichier) {
     unsigned int code = 0;
 
@@ -43,12 +79,17 @@ unsigned int lire_code (FILE* fichier) {
     return code;
 }
 
+
 unsigned int puissance(char bit){
   int i, res=1;
   for (i=0; i< bit; i++) res*=2;
   return res;
 }
 
+/** @brief Met à un le bit i du tampon
+* @param tampon -> tampon que l'on souhaite modifier
+* @param i -> le bit que l'on veut mettre à un
+*/
 void mise_a_un(unsigned char *tampon, unsigned int i){
   unsigned int deux_puissances[32];
   int j;
@@ -59,6 +100,11 @@ void mise_a_un(unsigned char *tampon, unsigned int i){
   *tampon = *tampon | deux_puissances[i];
 }
 
+/** @brief Ecrit en binaire le code sur un nombre NB_BITS de bits
+* @param sortie -> fichier dans lequel on va écrire
+* @param code -> code à écrire
+* @param vider_tampon -> quand 1 écrit le buffer restant
+*/
 void ecrire_binaire (FILE* fichier_sortie, unsigned int code, int vider_tampon) {
     static unsigned char tampon = 0;
     static int indice = 7; //7 car 1 octets
@@ -87,6 +133,10 @@ void ecrire_binaire (FILE* fichier_sortie, unsigned int code, int vider_tampon) 
     }
 }
 
+/** @brief Traduit en int un binaire
+* @param entree -> fichier que l'on souhaite lire
+* @return code lu en int
+*/
 int lire_binaire (FILE* entree) {
     static unsigned char tampon = 0;
     static unsigned int indice = 0;

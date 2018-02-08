@@ -12,7 +12,7 @@
  * @author JEAN Léo <leo.jean@etu.univ-amu.fr>
  * @author MAYOL Loïc <loic.mayol@etu.univ-amu.fr>
  *
- * @version 0.0.1 / 20-09-2012
+ * @version 1.0.0 / 08-02-2018
  */
 
 /**
@@ -64,7 +64,7 @@ t_ptr_noeud fils_noeud(t_ptr_noeud noeud){
   return noeud->fils;
 }
 
-/** @brief Renvoie la père du noeud
+/** @brief Renvoie le père du noeud
 * @param noeud -> noeud dont on souhaite connaître le père
 * @return Le pointeur vers le père du noeud
 */
@@ -74,6 +74,7 @@ t_ptr_noeud pere_noeud(t_ptr_noeud noeud){
 
 /** @brief Modifie le code du noeud ou l'ajoute
 * @param noeud -> noeud que l'on souhaite modifier
+* @param initialise -> initiliase si à 1
 * @return rien
 */
 void assigner_code(t_ptr_noeud noeud, int initialise){
@@ -129,9 +130,9 @@ void ajouter_frere(t_ptr_noeud pere, t_ptr_noeud frere){
   pere->frere=frere;
 }
 
-/** @brief Modifie le pere du noeud ou l'ajoute
+/** @brief Modifie le père du noeud ou l'ajoute
 * @param noeud -> noeud que l'on souhaite modifier
-* @param pere -> nouveau frère
+* @param pere -> nouveau père
 * @return rien
 */
 void ajouter_pere(t_ptr_noeud noeud, t_ptr_noeud pere){
@@ -143,6 +144,8 @@ void ajouter_pere(t_ptr_noeud noeud, t_ptr_noeud pere){
 * @param lettre -> lettre associée au noeud
 * @param frere -> pointeur vers le frère
 * @param fils -> pointeur vers le fils
+* @param pere -> pointeur vers le père
+* @param initialise -> initialise assigner_code si à 1
 * @return Un nouveau noeud avec les paramètres ci-dessus
 */
 t_ptr_noeud cree_noeud(unsigned char lettre, t_ptr_noeud frere, t_ptr_noeud fils, t_ptr_noeud pere, int initialise){
@@ -175,7 +178,7 @@ t_ptr_noeud initialiser_dictionnaire(){
 }
 
 /** @brief Supprime un dictionnaire
-* @param Dictionnaire que l'on souhaite supprimer
+* @param dico -> dictionnaire que l'on souhaite supprimer
 * @return Rien
 */
 void supprimer_dictionnaire(t_ptr_noeud dico){
@@ -194,8 +197,8 @@ void supprimer_dictionnaire(t_ptr_noeud dico){
 }
 
 /** @brief Recherche un caractère dans le dictionnaire
-* @param Dictionnaire que l'on souhaite parcourir
-* @param Chaîne de caractère
+* @param dico -> dictionnaire que l'on souhaite parcourir
+* @param chaine -> chaîne de caractères dont l'on cherche le code
 * @return Le code de la chaîne
 */
 int rechercher_caractere(t_ptr_noeud dico, unsigned char* chaine){
@@ -219,7 +222,11 @@ int rechercher_caractere(t_ptr_noeud dico, unsigned char* chaine){
   }
 }
 
-
+/** @brief Recherche un mot dans le dictionnaire
+* @param dico -> dictionnaire que l'on souhaite parcourir
+* @param code -> code dont l'on cherche la chaîne de caractères associée
+* @return Le code de la chaîne
+*/
 unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
   t_ptr_noeud noeud = table[code];
 
@@ -249,7 +256,7 @@ unsigned char* rechercher_mot(t_ptr_noeud dico, int code){
 }
 
 /** @brief Affiche le dictionnaire
-* @param Dictionnaire que l'on souhaite afficher
+* @param dico -> dictionnaire que l'on souhaite afficher
 * @return Rien
 */
 void afficher_dictionnaire(t_ptr_noeud dico){
@@ -265,21 +272,11 @@ void afficher_dictionnaire(t_ptr_noeud dico){
 //    afficher_dictionnaire(pere_noeud(dico));
 }
 
-/*t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere,unsigned char* chaine){
-  t_ptr_noeud arbre1 = cree_noeud(chaine[0],NULL,NULL,pere,0);
-  ajouter_fils(pere,arbre1);
-  int i;
-  t_ptr_noeud arbretmp = NULL;
-
-  for(i=1; i<strlen((char*)chaine);i++){
-    arbretmp = cree_noeud(chaine[i],NULL,NULL,NULL,0);
-    ajouter_pere(arbretmp,table[code_noeud(arbretmp)-1]);
-    ajouter_fils(table[code_noeud(arbretmp)-1],arbretmp);
-  }
-
-  return pere;
-}*/
-
+/** @brief Ajoute plusieurs à la fils à la suite du noeud
+* @param pere -> père des fils que l'on souhaite ajouter
+* @param chaine -> chaîne de caractères que l'on souhaite ajouter dans l'arbre
+* @return Rien
+*/
 t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere, unsigned char* chaine){
   t_ptr_noeud noeud = cree_noeud(chaine[0],NULL,NULL,pere,0);
   t_ptr_noeud tmp = NULL;
@@ -294,6 +291,11 @@ t_ptr_noeud ajout_plusieurs_fils(t_ptr_noeud pere, unsigned char* chaine){
   return pere;
 }
 
+/** @brief Ajoute un mot au dictionnaire
+* @param dico -> dictionnaire
+* @param chaine -> chaîne de caractères que l'on souhaite ajouter dans l'arbre
+* @return Le dictionnaire mis à jour.
+*/
 t_ptr_noeud ajout_dico(t_ptr_noeud dico, unsigned char* chaine){
   //Fin de caractère, on retourne le dictionnaire
   if(chaine[0] == '\0')
