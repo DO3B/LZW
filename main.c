@@ -1,3 +1,25 @@
+ /**
+ *
+ * Polytech Marseille
+ * Case 925 - 163, avenue de Luminy
+ * 13288 Marseille CEDEX 9
+ *
+ * Ce fichier est l'oeuvre d'eleves de Polytech Marseille. Il ne peut etre
+ * reproduit, utilise ou modifie sans l'avis express de ses auteurs.
+ */
+
+/**
+ * @author JEAN Léo <leo.jean@etu.univ-amu.fr>
+ * @author MAYOL Loïc <loic.mayol@etu.univ-amu.fr>
+ *
+ * @version 1.0.0 / 08-02-2018
+ */
+
+/**
+ * @file compression.c
+ * @brief Exécutable :)
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
